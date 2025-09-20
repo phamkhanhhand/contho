@@ -1,0 +1,99 @@
+{
+  "Routes": [
+
+
+    {
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          //"Port": 5194// user manager
+          "Port": 50002 //đã build lên
+        }
+      ],
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {JwtToken}",
+        "X-UserName": "{UserName}"
+      },
+
+
+      //vì midware ở gateway truyền ở đoạn này
+      //// Thêm thông tin UserName vào header yêu cầu
+      //"context.Request.Headers.Add(\"X-UserName\"",
+      //"userNameClaim.Value);": null,
+
+
+
+      "UpstreamPathTemplate": "/usermanager/{controller}/{action}",
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ], // Định nghĩa các phương thức HTTP mà bạn muốn xử lý
+
+      "DownstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ] // Chuyển tiếp với phương thức POST
+    },
+
+    //trường hợp không truyền phương thức
+    {
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          //"Port": 5194// user manager
+          "Port": 50002 //đã build lên
+        }
+      ],
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {JwtToken}",
+        "X-UserName": "{UserName}"
+      },
+       
+      "UpstreamPathTemplate": "/usermanager/{controller}",
+      "DownstreamPathTemplate": "/api/{controller}",
+
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ], // Định nghĩa các phương thức HTTP mà bạn muốn xử lý
+
+     // "DownstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ] // Chuyển tiếp với phương thức POST
+    },
+
+    {
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 50001 //đã build lên, provider
+        }
+      ],
+      "AddHeadersToRequest": {
+        "Authorization": "Bearer {JwtToken}",
+        "X-UserName": "{UserName}"
+      },
+
+
+      "UpstreamPathTemplate": "/IdentityProviderServer/{controller}/{action}",
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ] // Định nghĩa các phương thức HTTP mà bạn muốn xử lý
+    }
+
+    //for all product service
+    //{
+    //  "DownstreamPathTemplate": "/api/{controller}/{action}",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 5279
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/myauth/{controller}/{action}",
+    //  "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ] // Định nghĩa các phương thức HTTP mà bạn muốn xử lý
+
+    //}
+  ],
+  "GlobalConfiguration": {
+    //"BaseUrl": "http://localhost:5156", //url gateway
+    "BaseUrl": "http://localhost:50000" //url gateway
+  },
+  "DangerousAcceptAnyServerCertificateValidator": true
+
+}
