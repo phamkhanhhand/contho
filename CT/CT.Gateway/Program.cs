@@ -1,5 +1,8 @@
-﻿using Ocelot.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,53 @@ builder.Services.AddCors(options =>
 builder.Services.AddHttpClient();
 
 builder.Services.AddControllers();
+
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var pem = File.ReadAllText("Keys/public.pem");
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(pem.ToCharArray());
+
+        //options.Authority = "https://your-identity-server";  // URL của Identity Server
+        //options.Audience = "your_api";  // Audience của API
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            //ValidateIssuerSigningKey = false
+            ValidateIssuer = false,     // Bỏ qua việc kiểm tra Issuer
+            ValidateAudience = false,   // Bỏ qua việc kiểm tra Audience
+            ValidateLifetime = true,    // Kiểm tra thời gian hết hạn của token
+            //ClockSkew = TimeSpan.Zero,   // Không có độ trễ cho thời gian hết hạn
+            ValidateIssuerSigningKey = true, // Bỏ qua kiểm tra chữ ký của token
+
+            IssuerSigningKey = new RsaSecurityKey(rsa),
+
+        };
+
+
+
+
+        // Nếu bạn cần xử lý sự kiện, ví dụ log thông tin token hoặc kiểm tra thêm
+        options.Events = new JwtBearerEvents
+        { 
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine($"Token validated: {context.SecurityToken}");
+                return Task.CompletedTask;
+            }
+
+        };
+
+
+    });
+
 
 
 var app = builder.Build();
