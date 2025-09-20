@@ -1,3 +1,5 @@
 CT/.vs/
 CT/CT.Gateway/obj/
 CT/CT.Gateway/bin/
+CT.IdentityProvider/CT.IdentityProvider/obj/
+CT.IdentityProvider/CT.IdentityProvider/.vs/

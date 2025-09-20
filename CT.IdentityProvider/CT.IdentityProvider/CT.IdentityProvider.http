@@ -1,0 +1,6 @@
+@CT.IdentityProvider_HostAddress = http://localhost:5087
+
+GET {{CT.IdentityProvider_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
