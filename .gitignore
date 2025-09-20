@@ -3,3 +3,8 @@ CT/CT.Gateway/obj/
 CT/CT.Gateway/bin/
 CT.IdentityProvider/CT.IdentityProvider/obj/
 CT.IdentityProvider/CT.IdentityProvider/.vs/
+CT.Gateway/CT.Gateway/bin/
+CT.Gateway/CT.Gateway/obj/
+CT.IdentityProvider/.vs/
+CT.IdentityProvider/obj/
+CT.Gateway/.vs/
