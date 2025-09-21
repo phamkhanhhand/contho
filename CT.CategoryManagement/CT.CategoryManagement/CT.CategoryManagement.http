@@ -1,0 +1,6 @@
+@CT.CategoryManagement_HostAddress = http://localhost:5162
+
+GET {{CT.CategoryManagement_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
