@@ -9,3 +9,5 @@ CT.IdentityProvider/.vs/
 CT.IdentityProvider/obj/
 CT.Gateway/.vs/
 CT.IdentityProvider/bin/
+CT.EmployeeManagement/CT.EmployeeManagement/obj/
+CT.EmployeeManagement/.vs/
