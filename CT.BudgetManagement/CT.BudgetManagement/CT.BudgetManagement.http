@@ -1,0 +1,6 @@
+@CT.BudgetManagement_HostAddress = http://localhost:5078
+
+GET {{CT.BudgetManagement_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
