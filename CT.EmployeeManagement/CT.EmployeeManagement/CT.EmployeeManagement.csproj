@@ -6,4 +6,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Auth\Keys\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CT.CategoryManagement\CT.BL\CT.BL.csproj" />
+    <ProjectReference Include="..\..\CT.CategoryManagement\CT.Common\CT.Common.csproj" />
+    <ProjectReference Include="..\..\CT.CategoryManagement\CT.DL\CT.DL.csproj" />
+    <ProjectReference Include="..\..\CT.CategoryManagement\CT.ImExReport\CT.ImExReport.csproj" />
+    <ProjectReference Include="..\..\CT.CategoryManagement\CT.Models\CT.Models.csproj" />
+    <ProjectReference Include="..\..\CT.CategoryManagement\CT.UserContext\CT.UserContext.csproj" />
+    <ProjectReference Include="..\..\CT.CategoryManagement\CT.Utils\CT.Utils.csproj" />
+  </ItemGroup>
+
 </Project>
