@@ -1,0 +1,15 @@
+<!-- sidebar.component.html -->
+<div class="ct-sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="toggle-btn" (click)="toggleSidebar()">
+        <i class="fa" [ngClass]= "classColslap">{{companyName}}</i>
+    </div>
+    <ul>
+        <li *ngFor="let item of lstMenu">
+            <a href="{{item.featureURL}}">
+                <i class="fa fa-home">{{item.icon||'🔴'}}</i>
+                <span *ngIf="!isSidebarCollapsed">{{item.featureName}}</span>
+            </a>
+        </li>
+        
+    </ul>
+</div>

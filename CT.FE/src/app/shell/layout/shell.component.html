@@ -1,0 +1,11 @@
+<!-- phải có outlet để router, trang này như là master-page khung -->
+ 
+
+<div class="wrapper" *ngIf="authService.isLoggedIn()">
+    <!-- <app-sidebar (onCollapsed)="onCollapsedSidebar($event)"></app-sidebar>
+    <app-topbar #topbar [isSidebarCollapsed]="isSidebarCollapsed"></app-topbar> -->
+    <div class="content">
+        <app-content [isSidebarCollapsed]="isSidebarCollapsed"></app-content>
+    </div>
+</div>
+<router-outlet></router-outlet>

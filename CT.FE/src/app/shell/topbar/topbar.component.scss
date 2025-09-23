@@ -1,0 +1,39 @@
+/* topbar.component.css */
+.ct-topbar {
+  background-color: #00418c; /* Xanh dương đậm cho nền */
+  color: #f0f0f0; /* Màu chữ sáng để dễ đọc */
+  padding: 8px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  position: fixed;
+  right: 0;  
+  z-index: 999999999;
+//   width: calc(100% - 250px);
+}
+.ct-topbar .user-info {
+  display: flex;
+  align-items: center;
+}
+
+
+.ct-topbar .user-info span {
+  margin-right: 15px;
+  font-weight: bold; /* In đậm chữ */
+}
+
+.ct-topbar button {
+  background-color: #00418c; /* Nút giữ màu xanh dương đậm */
+  color: #f0f0f0; /* Chữ sáng */
+  border: none;
+  padding: 8px 15px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold; /* In đậm chữ */
+}
+
+.ct-topbar button:hover {
+  background-color: #232975; /* Màu xanh tím navy khi hover */
+  color: white; /* Chữ trắng khi hover */
+}

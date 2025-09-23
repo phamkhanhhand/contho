@@ -1,0 +1,23 @@
+<div class="login-container">
+    <h2>Đăng nhập</h2>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="username">Tài khoản:</label>
+        <input type="text" id="username" name="username" [(ngModel)]="username" class="form-control" required />
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Mật khẩu:</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" class="form-control" required />
+      </div>
+  
+      <div class="form-group">
+        <button type="submit" [disabled]="!loginForm.form.valid" class="btn btn-primary">Đăng nhập</button>
+      </div>
+    </form>
+  
+    <div *ngIf="loginError" class="alert alert-danger">
+      <p>Tài khoản hoặc mật khẩu không đúng!</p>
+    </div>
+  </div>
+  

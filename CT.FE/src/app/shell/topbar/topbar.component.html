@@ -1,0 +1,12 @@
+<!-- topbar.component.html 
+[ngStyle]="{ 'width':  dynamicWidth}" 
+-->
+<header class="ct-topbar"  
+[ngStyle]="{ 'width':  dynamicWidth}" >
+    <div class="user-info">
+        <button *ngIf="false" id="settings-btn" (click)="openSettings()">Cài Đặt</button>
+        <span id="user-name">Chào, {{curentUsername}}</span>
+        <button *ngIf="!isLoggedIn" id="login-btn" (click)="handleLogin()">Đăng Nhập</button>
+        <button  *ngIf="isLoggedIn" id="login-btn" (click)="handleLogout()">Đăng Xuất</button>
+    </div>
+</header>
