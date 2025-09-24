@@ -25,9 +25,9 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
-    //check if token is available
-    //if not get token from server
-    //then process the request
+    //check if token is available => refresh token 
+    //then process the request. if 401 => refresh token
+
 
     if (token) {
       //check token is expired

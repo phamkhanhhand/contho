@@ -19,7 +19,9 @@ ng g c features/demo/demo --module=features/demo
 ng g m features/employee-manage
 ng g c features/employee-manage/employee-list --module=features/employee-manage
  
- 
+# example for shared components
+ng g m shared/components/ct-textbox
+ng g c shared/components/ct-textbox/ct-textbox --module=shared/components/ct-textbox
 
  
 ## Development server
