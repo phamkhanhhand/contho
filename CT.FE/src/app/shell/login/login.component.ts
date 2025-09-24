@@ -36,6 +36,8 @@ export class LoginComponent {
           ]; 
       
       
+
+          //todo add more info to localstorage
           localStorage.setItem('curentUsername', curentUsername);
   
         this.router.navigate(['']); // Điều hướng sau khi đăng nhập thành công
