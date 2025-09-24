@@ -16,13 +16,13 @@ const routes: Routes = [
           ),
       },
 
-      // {
-      //   path: 'system-admin',
-      //   loadChildren: () =>
-      //     import('../features/system-admin/system-admin.module').then(
-      //       (m) => m.SystemAdminModule
-      //     ),
-      // },
+      {
+        path: 'employee-manage',
+        loadChildren: () =>
+          import('../features/employee-manage/employee-manage.module').then(
+            (m) => m.EmployeeManageModule
+          ),
+      },
       // {
       //   path: '',
       //   loadChildren: () =>
