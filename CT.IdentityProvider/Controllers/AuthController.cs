@@ -22,6 +22,11 @@ namespace CT.Controllers
             var tokenString = CTJwtHelper.GenerateAccessToken(request.Username);
 
             var refreshToken = CTJwtHelper.GenerateSecureRefreshToken();
+
+            //put refresh token to cookie. In oder to web app
+            SetRefreshTokenInCookie(refreshToken);
+
+
             //todo lưu refreshToken vào db
 
             // Lưu refresh token vào memory hoặc DB (demo)
@@ -35,10 +40,44 @@ namespace CT.Controllers
         }
 
 
+        // Cài đặt refresh token vào cookie
+        private void SetRefreshTokenInCookie(string refreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,          //javascript cant not access
+                Secure = true,            //only HTTPS
+                SameSite = SameSiteMode.Strict, // block CSRF attacks
+                Expires = DateTime.Now.AddDays(14) // 14 day cookie
+            };
+
+            // Đặt cookie với tên là "refresh_token" và giá trị là refresh token vừa tạo
+            HttpContext.Response.Cookies.Append(Constant.RefreshTokenKey, refreshToken, cookieOptions);
+        }
+
+
         [HttpPost("refresh")]
         public IActionResult RefreshToken([FromBody] CTRefreshRequest model)
         {
-            var username = CTAuthService.GetUsernameByToken(model.RefreshToken);
+
+            var refreshToken = model.RefreshToken;
+
+
+            if (String.IsNullOrWhiteSpace(refreshToken))
+            {
+                //get from cookie 
+                if (Request.Cookies.ContainsKey(Constant.RefreshTokenKey))
+                {
+                    refreshToken = Request.Cookies[Constant.RefreshTokenKey];
+                }
+            }
+
+            if (String.IsNullOrWhiteSpace(refreshToken))
+            { 
+                return Unauthorized("No authen, no refresh token");
+            }
+
+                var username = CTAuthService.GetUsernameByToken(refreshToken);
             if (username == null) return Unauthorized();
 
             var newAccessToken = CTJwtHelper.GenerateAccessToken(username);

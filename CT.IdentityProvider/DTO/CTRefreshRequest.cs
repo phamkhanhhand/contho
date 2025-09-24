@@ -3,7 +3,7 @@ namespace CT.Auth
 {
     public class CTRefreshRequest
     {
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
     }
 
 }
