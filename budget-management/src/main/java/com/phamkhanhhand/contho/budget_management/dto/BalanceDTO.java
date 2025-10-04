@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Builder
 public class BalanceDTO {
 
-    private Long balancingID;
+    private Long balanceID;
 
     private String segment1;
 

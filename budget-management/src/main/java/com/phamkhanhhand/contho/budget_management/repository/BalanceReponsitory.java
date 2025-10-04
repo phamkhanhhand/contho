@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 public interface BalanceReponsitory extends JpaRepository<Balance, Long> {
-    Optional<Balance> findByBalancingID(int balancingID);
+    Optional<Balance> findByBalanceID(int balanceID);
 }

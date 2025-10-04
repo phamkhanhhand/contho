@@ -12,15 +12,15 @@ import java.math.BigDecimal;
 @Builder
 
 @Entity
-@Table(name = "bud_balance")
+@Table(name = "bud_balances")
 public class Balance {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_bud_balance")
 
-    @Column(name = "balancing_id")  // Cột trong DB
-    private Long balancingID;
+    @Column(name = "balance_id")  // Cột trong DB
+    private Long balanceID;
 
     @Column(name = "segment1")
     private String segment1;
