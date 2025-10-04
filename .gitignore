@@ -48,3 +48,5 @@ CT.BudgetManagement/CT.UserContext/bin/
 CT.BudgetManagement/CT.Models/bin/
 CT.BudgetManagement/CT.Common/bin/
 CT.BudgetManagement/CT.BudgetManagement/bin/
+CT.FE/node_modules/
+CT.FE/.angular/
