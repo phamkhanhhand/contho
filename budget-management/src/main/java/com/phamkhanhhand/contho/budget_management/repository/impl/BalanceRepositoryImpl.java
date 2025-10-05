@@ -1,10 +1,12 @@
 package com.phamkhanhhand.contho.budget_management.repository.impl;
 
 import com.microsoft.sqlserver.jdbc.SQLServerCallableStatement;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.phamkhanhhand.contho.budget_management.dto.*;
 import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Internal;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -81,6 +83,8 @@ public class BalanceRepositoryImpl {
                 );
             }
 
+            //todo lock try 3 times after 7 seconds
+
             try (CallableStatement cs = sqlCon.prepareCall("{call [bud].[proc_hold_balance](?,?,?)}")) {
                 cs.setObject(1, "phamha");
                 cs.setObject(2, Year.now().getValue());
@@ -107,16 +111,52 @@ public class BalanceRepositoryImpl {
      * (hoàn trả sotien ngân sách (cộng lại tiền ngân sách)). Bước ngược lại của hold
      * phamha Oct 05, 2025
      */
-    public boolean revert(List<Integer> listBudgetRequestID)
-    {
+    public boolean revert(List<Integer> listBudgetRequestID) {
         boolean hasResults = false;
+        int maxRetries = 3;
+        int retryDelayMillis = 3000;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+
+                hasResults = this.CallRevertStoreProcedure(listBudgetRequestID);
+
+            } catch (Exception ex) {
+                // Check Is there lock/deadlock, time out
+                if ((ex instanceof SQLException && isLockException((SQLException) ex)) || ex instanceof QueryTimeoutException) {
+                    if (attempt == maxRetries) throw ex; // Over time retry
+                    try {
+                        Thread.sleep(retryDelayMillis); // wait 3 seconds
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("Retry interrupted", ie);
+                    }
+                } else {
+                    throw ex; // not lock
+                }
+            }
+
+        }
+
+        return hasResults;
+    }
+
+    private boolean isLockException(SQLException ex) {
+        int errorCode = ex.getErrorCode();
+
+        return errorCode == 1205 ||  // Deadlock
+                errorCode == 1222 ||  // Lock timeout
+                errorCode == -2;      // JDBC Command timeout
+    }
+
+    private boolean CallRevertStoreProcedure(List<Integer> listBudgetRequestID){
+        boolean hasResults =false;
 
         jdbcTemplate.execute((Connection con) -> {
             SQLServerConnection sqlCon = con.unwrap(SQLServerConnection.class);
 
             // Tạo TVP
             SQLServerDataTable tvp = new SQLServerDataTable();
-
 
             tvp.addColumnMetadata("value", Types.BIGINT);
 
@@ -125,29 +165,29 @@ public class BalanceRepositoryImpl {
             }
 
             int yearNow = Year.now().getValue();
-//            try (SQLServerCallableStatement cs = (SQLServerCallableStatement)sqlCon.prepareCall("{call [bud].[proc_revert_balance](@username = ?, @period = ?, @ListRequestID = ?)}"))
-//            {
-//
-//                cs.setString("username", "phamha");
-//                cs.setInt("period", yearNow);
-//                cs.setStructured("@ListRequestID", "dbo.type_list_bigint", tvp);
-
-
+            sqlCon.setAutoCommit(false);
             try (CallableStatement cs = sqlCon.prepareCall("{call [bud].[proc_revert_balance](?,?,?)}")) {
                 cs.setObject(1, "phamha");
-                cs.setObject(2, Year.now().getValue());
-                 ((SQLServerCallableStatement) cs).setStructured(3, "dbo.type_list_bigint", tvp);
+                cs.setObject(2, yearNow);
+                ((SQLServerCallableStatement) cs).setStructured(3, "dbo.type_list_bigint", tvp);
+
+                cs.setQueryTimeout(5); // 30 seconds
 
                 var re =  cs.execute();
 
                 try (ResultSet rs = cs.getResultSet()) {
-
 //                    while (rs.next()) {
 //                        double amount = rs.getDouble("amount");
 //                    }
                 }
 
+                sqlCon.commit();
+
+            } catch (Exception e) {
+                sqlCon.rollback();
+                throw e;
             }
+
             return hasResults;
         });
 
