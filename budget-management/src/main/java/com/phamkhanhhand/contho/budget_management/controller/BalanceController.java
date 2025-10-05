@@ -1,12 +1,11 @@
 package com.phamkhanhhand.contho.budget_management.controller;
 
+import com.phamkhanhhand.contho.budget_management.security.DataUserContext;
+import com.phamkhanhhand.contho.budget_management.common.UserContextUtil;
 import com.phamkhanhhand.contho.budget_management.dto.BalanceDTO;
 import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDTO;
-import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDetailDTO;
 import com.phamkhanhhand.contho.budget_management.service.BalanceService;
-import com.phamkhanhhand.contho.budget_management.service.impl.BalanceServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +39,13 @@ public class BalanceController {
 
     @GetMapping
     public List<BalanceDTO> getBudgets() {
+
+        DataUserContext ctx = UserContextUtil.getCurrentUserContext();
+        if (ctx == null) {
+            throw new RuntimeException("User not authenticated");
+        }
+
+
         var x = balanceService.getAll();
 
         return x;
