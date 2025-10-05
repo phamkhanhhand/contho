@@ -4,6 +4,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerCallableStatement;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import com.phamkhanhhand.contho.budget_management.dto.*;
 import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDTO;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Internal;
 import org.springframework.dao.QueryTimeoutException;
@@ -111,45 +112,9 @@ public class BalanceRepositoryImpl {
      * (hoàn trả sotien ngân sách (cộng lại tiền ngân sách)). Bước ngược lại của hold
      * phamha Oct 05, 2025
      */
-    public boolean revert(List<Integer> listBudgetRequestID) {
-        boolean hasResults = false;
-        int maxRetries = 3;
-        int retryDelayMillis = 3000;
 
-        for (int attempt = 1; attempt <= maxRetries; attempt++) {
-            try {
-
-                hasResults = this.CallRevertStoreProcedure(listBudgetRequestID);
-
-            } catch (Exception ex) {
-                // Check Is there lock/deadlock, time out
-                if ((ex instanceof SQLException && isLockException((SQLException) ex)) || ex instanceof QueryTimeoutException) {
-                    if (attempt == maxRetries) throw ex; // Over time retry
-                    try {
-                        Thread.sleep(retryDelayMillis); // wait 3 seconds
-                    } catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                        throw new RuntimeException("Retry interrupted", ie);
-                    }
-                } else {
-                    throw ex; // not lock
-                }
-            }
-
-        }
-
-        return hasResults;
-    }
-
-    private boolean isLockException(SQLException ex) {
-        int errorCode = ex.getErrorCode();
-
-        return errorCode == 1205 ||  // Deadlock
-                errorCode == 1222 ||  // Lock timeout
-                errorCode == -2;      // JDBC Command timeout
-    }
-
-    private boolean CallRevertStoreProcedure(List<Integer> listBudgetRequestID){
+    @Transactional
+    public boolean revert(List<Integer> listBudgetRequestID){
         boolean hasResults =false;
 
         jdbcTemplate.execute((Connection con) -> {
@@ -165,13 +130,13 @@ public class BalanceRepositoryImpl {
             }
 
             int yearNow = Year.now().getValue();
-            sqlCon.setAutoCommit(false);
+//            con.setAutoCommit(false);
             try (CallableStatement cs = sqlCon.prepareCall("{call [bud].[proc_revert_balance](?,?,?)}")) {
                 cs.setObject(1, "phamha");
                 cs.setObject(2, yearNow);
                 ((SQLServerCallableStatement) cs).setStructured(3, "dbo.type_list_bigint", tvp);
-
-                cs.setQueryTimeout(5); // 30 seconds
+//
+                cs.setQueryTimeout(120); // 30 seconds
 
                 var re =  cs.execute();
 
@@ -181,10 +146,10 @@ public class BalanceRepositoryImpl {
 //                    }
                 }
 
-                sqlCon.commit();
+//                con.commit();
 
             } catch (Exception e) {
-                sqlCon.rollback();
+//                con.rollback();
                 throw e;
             }
 
