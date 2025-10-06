@@ -27,10 +27,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 //            CustomUserDetails userDetails = new CustomUserDetails(username, fullName, department);
 
+
+            //todo get info from database/other service, use cache redis
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(username,null, null);
 
 //            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
