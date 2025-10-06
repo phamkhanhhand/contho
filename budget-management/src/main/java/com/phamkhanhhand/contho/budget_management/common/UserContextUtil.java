@@ -8,12 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class UserContextUtil {
     public static DataUserContext getCurrentUserContext() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+//        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof CustomUserDetails) {
+//        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        if (auth != null){
             return new DataUserContext(
-                    userDetails.getUsername(),
-                    userDetails.getFullName(),
-                    userDetails.getDepartment()
+                    auth.getPrincipal().toString()
             );
         }
         return null;

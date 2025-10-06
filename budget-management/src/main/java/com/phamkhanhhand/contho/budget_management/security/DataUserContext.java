@@ -5,6 +5,12 @@ public class DataUserContext {
     private String fullName;
     private String department;
 
+
+    public DataUserContext(String username
+    ){
+        this.username = username;
+    }
+
     public DataUserContext(String username, String fullName, String department) {
         this.username = username;
         this.fullName = fullName;

@@ -12,11 +12,6 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -25,16 +20,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = resolveToken(request);
 
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            String username = jwtTokenProvider.getUsername(token);
-            String fullName = jwtTokenProvider.getFullName(token);
-            String department = jwtTokenProvider.getDepartment(token);
+        if (token != null ) {
 
-            CustomUserDetails userDetails = new CustomUserDetails(username, fullName, department);
+            String username = SimpleJwtParser.getUsername(token);
+
+
+//            CustomUserDetails userDetails = new CustomUserDetails(username, fullName, department);
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    new UsernamePasswordAuthenticationToken(username,null, null);
+
+//            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

@@ -17,13 +17,6 @@ public class CustomUserDetails implements UserDetails {
         this.department = department;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

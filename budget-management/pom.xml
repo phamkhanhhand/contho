@@ -79,6 +79,7 @@
 
 
 <!--security-->
+<!--no need spring-boot-starter-security coz not authen in this service. but authen in gateway-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
