@@ -2,7 +2,9 @@ package com.phamkhanhhand.contho.budget_management.dto;
 
 
 import lombok.AllArgsConstructor;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BalanceDTO {
+public class AdjustmentDTO {
 
     private Long balanceID;
 
@@ -34,10 +36,10 @@ public class BalanceDTO {
 
     private String segment10;
 
-    private BigDecimal planningAmount;
+    private BigDecimal amount;
 
-    private BigDecimal remainningAmount;
+    private BigDecimal approvedAmount;
 
     private String period;
-
+    
 }

@@ -1,27 +1,26 @@
 package com.phamkhanhhand.contho.budget_management.repository.impl;
 
 import com.microsoft.sqlserver.jdbc.SQLServerCallableStatement;
-import com.phamkhanhhand.contho.budget_management.dto.*;
+import com.microsoft.sqlserver.jdbc.SQLServerConnection;
+import com.microsoft.sqlserver.jdbc.SQLServerDataTable;
 import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDTO;
+import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDetailDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.microsoft.sqlserver.jdbc.SQLServerConnection;
-import com.microsoft.sqlserver.jdbc.SQLServerDataTable;
-
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Types;
 import java.time.Year;
 import java.util.List;
 
 
-import java.sql.CallableStatement;
-
-
 @RequiredArgsConstructor
 @Repository
-public class BalanceRepositoryImpl {
+public class AdjustmentRepositoryImpl {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -45,18 +44,18 @@ public class BalanceRepositoryImpl {
             tvp.addColumnMetadata("source_header_id", Types.BIGINT);
             tvp.addColumnMetadata("source_detail_id", Types.BIGINT);
             tvp.addColumnMetadata("balance_id", Types.BIGINT);
-            tvp.addColumnMetadata("amount", java.sql.Types.DECIMAL);
+            tvp.addColumnMetadata("amount", Types.DECIMAL);
 
-            tvp.addColumnMetadata("segment1", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment2", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment3", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment4", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment5", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment6", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment7", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment8", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment9", java.sql.Types.NVARCHAR);
-            tvp.addColumnMetadata("segment10", java.sql.Types.NVARCHAR);
+            tvp.addColumnMetadata("segment1", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment2", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment3", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment4", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment5", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment6", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment7", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment8", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment9", Types.NVARCHAR);
+            tvp.addColumnMetadata("segment10", Types.NVARCHAR);
 
             for (BudgetRequestDetailDTO dto : requestDetails) {
                 tvp.addRow(
