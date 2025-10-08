@@ -1,12 +1,17 @@
 package com.phamkhanhhand.contho.budget_management.dto;
 
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -14,32 +19,19 @@ import java.math.BigDecimal;
 @Builder
 public class AdjustmentDTO {
 
-    private Long balanceID;
-
-    private String segment1;
-
-    private String segment2;
-
-    private String segment3;
-
-    private String segment4;
-
-    private String segment5;
-
-    private String segment6;
-
-    private String segment7;
-
-    private String segment8;
-
-    private String segment9;
-
-    private String segment10;
-
-    private BigDecimal amount;
-
-    private BigDecimal approvedAmount;
-
+    private Long budgetAdjustmentID;
+    private String budgetAdjustmentNo;
+    private String budgetGroup;
     private String period;
+    private String status;
+    private String approvalUsername;
+    private String description;
+    private String comment;
+    private BigDecimal totalAmount;
+    private BigDecimal approvalTotalAmount;
+    private BigDecimal createdBy;
+    private BigDecimal modifiedBy;
+    private Date createdDate;
+    private Date modifiedDate;
     
 }

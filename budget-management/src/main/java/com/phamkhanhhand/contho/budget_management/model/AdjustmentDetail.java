@@ -21,6 +21,9 @@ public class AdjustmentDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_bud_budget_adjustment_details")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "adjustment_seq")
+//    @SequenceGenerator(name = "adjustment_seq", sequenceName = "seq_bud_budget_adjustment_details", allocationSize = 1)
+    //else ALTER SEQUENCE bud.seq_bud_budget_adjustment_details INCREMENT BY 50;
 
     @Column(name = "budget_adjustment_detail_id")  // Cột trong DB
     private Long budgetAdjustmentDetailID;

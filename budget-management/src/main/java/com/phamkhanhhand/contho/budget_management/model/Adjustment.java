@@ -21,7 +21,6 @@ public class Adjustment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_bud_budget_adjustments")
-
     @Column(name = "budget_adjustment_id")  // Cột trong DB
     private Long budgetAdjustmentID;
 

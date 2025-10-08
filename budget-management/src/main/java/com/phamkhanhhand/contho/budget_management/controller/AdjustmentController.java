@@ -1,6 +1,7 @@
 package com.phamkhanhhand.contho.budget_management.controller;
 
 import com.phamkhanhhand.contho.budget_management.common.UserContextUtil;
+import com.phamkhanhhand.contho.budget_management.dto.AdjustmentDTO;
 import com.phamkhanhhand.contho.budget_management.dto.BalanceDTO;
 import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDTO;
 import com.phamkhanhhand.contho.budget_management.security.DataUserContext;
@@ -26,21 +27,12 @@ public class AdjustmentController {
     * phamkhanhhand Oct 04, 2025
      */
     @PostMapping("get-by-id/{id}")
-    public boolean getByID(@RequestPart Long id) {
+    public AdjustmentDTO getByID(@RequestPart Long id) {
         return adjustmentService.getByID(id);
     }
 
-    /*
-     * hold budget from balances
-     * phamkhanhhand Oct 04, 2025
-     */
-    @PostMapping("revert")
-    public boolean revert(@RequestBody List<Integer> listBudgetRequestID) {
-        return adjustmentService.revert(listBudgetRequestID);
-    }
-
     @GetMapping
-    public List<BalanceDTO> getBudgets() {
+    public List<AdjustmentDTO> getBudgets() {
 
         DataUserContext ctx = UserContextUtil.getCurrentUserContext();
         if (ctx == null) {
