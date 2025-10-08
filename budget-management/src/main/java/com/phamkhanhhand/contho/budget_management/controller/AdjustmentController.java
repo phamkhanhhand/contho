@@ -1,5 +1,7 @@
 package com.phamkhanhhand.contho.budget_management.controller;
 
+import com.phamkhanhhand.contho.budget_management.aspect.CheckPermission;
+import com.phamkhanhhand.contho.budget_management.common.Enumeration;
 import com.phamkhanhhand.contho.budget_management.common.UserContextUtil;
 import com.phamkhanhhand.contho.budget_management.dto.AdjustmentDTO;
 import com.phamkhanhhand.contho.budget_management.dto.BalanceDTO;
@@ -32,6 +34,7 @@ public class AdjustmentController {
     }
 
     @GetMapping
+    @CheckPermission(uri = "/api/test/data", scopes = {Enumeration.Scopes.VIEW})
     public List<AdjustmentDTO> getBudgets() {
 
         DataUserContext ctx = UserContextUtil.getCurrentUserContext();
