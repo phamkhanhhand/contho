@@ -98,7 +98,30 @@ public class AdjustmentRepositoryImpl extends BaseRepositoryImpl {
                 res = true;
             }
 
-        } 
+        }
+        return res;
+    }
+
+
+    public boolean revertByAdjustmentId(Long id, String username, String revertType) {
+
+        var res= false;
+
+        String sql = "{call [bud].[proc_revert_balance_adjustment](?, ?,?)}";
+
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, username, id, revertType);
+
+        if (!result.isEmpty()) {
+            var row = result.get(0); // lấy dòng đầu tiên
+
+            String rsCheck = (String) row.get("result");
+            Integer numberAffect = (Integer) row.get("numberAffect");
+
+            if(StringUtils.equalsIgnoreCase(rsCheck, Enumeration.Flag.PASS)){
+                res = true;
+            }
+
+        }
         return res;
     }
 

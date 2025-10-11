@@ -165,13 +165,18 @@ public class AdjustmentServiceImpl implements AdjustmentService {
         DataUserContext currentUserContext = UserContextUtil.getCurrentUserContext();
         var currentUsername = currentUserContext.getUsername();
 
+        var rs = CommonApprovalResponseDTO.builder()
+                .id(requestDTO.getId())
+                .status(Enumeration.Flag.PASS)
+                .build();
+
         String resourceCode = RequestHeaderUtil.getHeader("ResourceCode");
 
-        var requestForm = adjustmentReponsitory
+        var adjustment = adjustmentReponsitory
                 .findByBudgetAdjustmentID(requestDTO.getId())
-                .orElseThrow(() -> new RuntimeException("RequestForm not found"));
+                .orElseThrow(() -> new RuntimeException("adjustment not found"));
 
-        if (!StringUtils.equalsIgnoreCase(requestForm.getStatus(), Enumeration.RequestFormStatus.SUBMIT)) {
+        if (!StringUtils.equalsIgnoreCase(adjustment.getStatus(), Enumeration.AdjustmentStatus.SUBMIT)) {
             throw new RuntimeException("Status is not valid");
         }
 
@@ -184,24 +189,37 @@ public class AdjustmentServiceImpl implements AdjustmentService {
         var hasPermission = scopes.stream().anyMatch(x -> StringUtils.equalsIgnoreCase(Enumeration.Scopes.APPROVE, x.getScopeCode()));
 
         if (hasPermission) {
-            requestForm.setStatus(Enumeration.RequestFormStatus.REJECT);
 
-            adjustmentReponsitory.save(requestForm);
-            adjustmentHistoryService.makeHistory(requestDTO.getId(),
-                    currentUsername,
-                    Enumeration.RequestFormStatus.SUBMIT,
-                    requestForm.getStatus(),
-                    requestDTO.getComment(),
-                    requestForm.getBudgetAdjustmentNo()
-            );
+            //revert
+
+            var holdResult = adjustmentRepositoryImpl.revertByAdjustmentId(adjustment.getBudgetAdjustmentID(), currentUserContext.getUsername(), Enumeration.RevertType.ADJUSTMENT);
+
+            if (holdResult) {
+
+                adjustment.setStatus(Enumeration.AdjustmentStatus.REJECT);
+
+                adjustmentReponsitory.save(adjustment);
+                adjustmentHistoryService.makeHistory(requestDTO.getId(),
+                        currentUsername,
+                        Enumeration.AdjustmentStatus.SUBMIT,
+                        adjustment.getStatus(),
+                        requestDTO.getComment(),
+                        adjustment.getBudgetAdjustmentNo()
+                );
+            } else {
+                rs = CommonApprovalResponseDTO.builder()
+                        .id(requestDTO.getId())
+                        .status(Enumeration.Flag.FAIL)
+                        .errorMessage("Khong cat duoc ngan sach")
+                        .build();
+            }
+
+
         } else {
             throw new RuntimeException("no permission");
         }
 
-        return CommonApprovalResponseDTO.builder()
-                .id(requestForm.getBudgetAdjustmentID())
-                .status("SUCCESS")
-                .build();
+        return rs;
     }
 
 
@@ -224,9 +242,6 @@ public class AdjustmentServiceImpl implements AdjustmentService {
         var requestForm = adjustmentReponsitory
                 .findByBudgetAdjustmentID(requestDTO.getId())
                 .orElseThrow(() -> new RuntimeException("RequestForm not found"));
-
-
-        var requestFormDetails = adjustmentDetailReponsitory.findByBudgetAdjustmentID(requestDTO.getId());
 
 
         if (!StringUtils.equalsIgnoreCase(requestForm.getStatus(), Enumeration.RequestFormStatus.SUBMIT)) {
@@ -261,7 +276,6 @@ public class AdjustmentServiceImpl implements AdjustmentService {
                 .status("SUCCESS")
                 .build();
     }
-
 
     /*
      * Leader reject A04-A06

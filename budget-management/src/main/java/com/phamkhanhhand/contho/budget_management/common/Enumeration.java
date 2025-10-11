@@ -223,6 +223,24 @@ public class Enumeration {
 
     }
 
+    public class RevertType {
+
+        /*
+         *  revert amount and gap
+         */
+        public static final String ADJUSTMENT_ALL = "ADJUSTMENT_ALL";
+
+        /*
+        * just revert amount
+         */
+        public static final String ADJUSTMENT = "ADJUSTMENT";
+
+
+        /*
+         * just revert Gap
+         */
+        public static final String ADJUSTMENT_GAP = "ADJUSTMENT_GAP";
+    }
 
 
 }
