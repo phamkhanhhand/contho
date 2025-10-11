@@ -1,4 +1,13 @@
+USE [master]
 GO
+/****** Object:  Database [KH.BudgetManager]    Script Date: 10/12/2025 12:13:42 AM ******/
+CREATE DATABASE [KH.BudgetManager]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'KH.BudgetManager', FILENAME = N'\KH.BudgetManager.mdf' , SIZE = 73728KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'KH.BudgetManager_log', FILENAME = N'\KH.BudgetManager_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
 GO
 ALTER DATABASE [KH.BudgetManager] SET COMPATIBILITY_LEVEL = 160
 GO
@@ -73,16 +82,27 @@ ALTER DATABASE [KH.BudgetManager] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, 
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  User [bud_user]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  User [bud_user]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE USER [bud_user] FOR LOGIN [bud_user] WITH DEFAULT_SCHEMA=[bud]
 GO
-/****** Object:  Schema [bud]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Schema [bud]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SCHEMA [bud]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_AccountingProposal]    Script Date: 10/6/2025 11:12:42 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_AccountingProposal] 
+/****** Object:  Sequence [bud].[seq_bud_budget_adjustment_details]    Script Date: 10/12/2025 12:13:42 AM ******/
+CREATE SEQUENCE [bud].[seq_bud_budget_adjustment_details] 
+ AS [bigint]
+ START WITH 1
+ INCREMENT BY 50
+ MINVALUE -9223372036854775808
+ MAXVALUE 9223372036854775807
+ CACHE 
+GO
+USE [KH.BudgetManager]
+GO
+/****** Object:  Sequence [bud].[seq_bud_budget_adjustment_histories]    Script Date: 10/12/2025 12:13:42 AM ******/
+CREATE SEQUENCE [bud].[seq_bud_budget_adjustment_histories] 
  AS [bigint]
  START WITH 1
  INCREMENT BY 1
@@ -92,40 +112,18 @@ CREATE SEQUENCE [bud].[seq_bud_AccountingProposal]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_AccountingProposalDetail]    Script Date: 10/6/2025 11:12:42 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_AccountingProposalDetail] 
+/****** Object:  Sequence [bud].[seq_bud_budget_adjustments]    Script Date: 10/12/2025 12:13:42 AM ******/
+CREATE SEQUENCE [bud].[seq_bud_budget_adjustments] 
  AS [bigint]
  START WITH 1
- INCREMENT BY 1
+ INCREMENT BY 50
  MINVALUE -9223372036854775808
  MAXVALUE 9223372036854775807
  CACHE 
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_AccountingProposalHistory]    Script Date: 10/6/2025 11:12:42 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_AccountingProposalHistory] 
- AS [bigint]
- START WITH -9223372036854775808
- INCREMENT BY 1
- MINVALUE -9223372036854775808
- MAXVALUE 9223372036854775807
- CACHE 
-GO
-USE [KH.BudgetManager]
-GO
-/****** Object:  Sequence [bud].[seq_bud_Balancing]    Script Date: 10/6/2025 11:12:42 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_Balancing] 
- AS [bigint]
- START WITH 1
- INCREMENT BY 1
- MINVALUE -9223372036854775808
- MAXVALUE 9223372036854775807
- CACHE 
-GO
-USE [KH.BudgetManager]
-GO
-/****** Object:  Sequence [bud].[seq_bud_budget_request_details]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_budget_request_details]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_budget_request_details] 
  AS [bigint]
  START WITH 1
@@ -136,7 +134,7 @@ CREATE SEQUENCE [bud].[seq_bud_budget_request_details]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_budget_requests]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_budget_requests]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_budget_requests] 
  AS [bigint]
  START WITH 1
@@ -147,7 +145,7 @@ CREATE SEQUENCE [bud].[seq_bud_budget_requests]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_BudgetPlan]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_BudgetPlan]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_BudgetPlan] 
  AS [bigint]
  START WITH 1
@@ -158,7 +156,7 @@ CREATE SEQUENCE [bud].[seq_bud_BudgetPlan]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_BudgetPlanDetail]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_BudgetPlanDetail]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_BudgetPlanDetail] 
  AS [bigint]
  START WITH 100
@@ -169,7 +167,7 @@ CREATE SEQUENCE [bud].[seq_bud_BudgetPlanDetail]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_Config]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_Config]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_Config] 
  AS [bigint]
  START WITH 1
@@ -180,7 +178,7 @@ CREATE SEQUENCE [bud].[seq_bud_Config]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_FlexHierarchy]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_FlexHierarchy]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_FlexHierarchy] 
  AS [bigint]
  START WITH 1
@@ -191,7 +189,7 @@ CREATE SEQUENCE [bud].[seq_bud_FlexHierarchy]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_flexValues]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_flexValues]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_flexValues] 
  AS [bigint]
  START WITH 1
@@ -202,7 +200,7 @@ CREATE SEQUENCE [bud].[seq_bud_flexValues]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[Seq_bud_FlexValueSets]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[Seq_bud_FlexValueSets]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[Seq_bud_FlexValueSets] 
  AS [bigint]
  START WITH 1
@@ -213,7 +211,7 @@ CREATE SEQUENCE [bud].[Seq_bud_FlexValueSets]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_Template]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_Template]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [bud].[seq_bud_Template] 
  AS [bigint]
  START WITH 1
@@ -224,7 +222,7 @@ CREATE SEQUENCE [bud].[seq_bud_Template]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[seq_adm_flex_hierarchy]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [dbo].[seq_adm_flex_hierarchy]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [dbo].[seq_adm_flex_hierarchy] 
  AS [bigint]
  START WITH 1
@@ -235,7 +233,7 @@ CREATE SEQUENCE [dbo].[seq_adm_flex_hierarchy]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[Seq_adm_flex_value_sets]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [dbo].[Seq_adm_flex_value_sets]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [dbo].[Seq_adm_flex_value_sets] 
  AS [bigint]
  START WITH 1
@@ -246,7 +244,7 @@ CREATE SEQUENCE [dbo].[Seq_adm_flex_value_sets]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[seq_adm_flex_values]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [dbo].[seq_adm_flex_values]    Script Date: 10/12/2025 12:13:42 AM ******/
 CREATE SEQUENCE [dbo].[seq_adm_flex_values] 
  AS [bigint]
  START WITH 1
@@ -257,7 +255,7 @@ CREATE SEQUENCE [dbo].[seq_adm_flex_values]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[seq_bud_balance]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Sequence [dbo].[seq_bud_balance]    Script Date: 10/12/2025 12:13:43 AM ******/
 CREATE SEQUENCE [dbo].[seq_bud_balance] 
  AS [bigint]
  START WITH 1
@@ -266,7 +264,7 @@ CREATE SEQUENCE [dbo].[seq_bud_balance]
  MAXVALUE 9223372036854775807
  CACHE 
 GO
-/****** Object:  UserDefinedTableType [bud].[bud_type_check_balance_detail]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  UserDefinedTableType [bud].[bud_type_check_balance_detail]    Script Date: 10/12/2025 12:13:43 AM ******/
 CREATE TYPE [bud].[bud_type_check_balance_detail] AS TABLE(
 	[source_header_id] [bigint] NULL,
 	[source_detail_id] [bigint] NULL,
@@ -284,15 +282,15 @@ CREATE TYPE [bud].[bud_type_check_balance_detail] AS TABLE(
 	[segment10] [nvarchar](500) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[type_list_bigint]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[type_list_bigint]    Script Date: 10/12/2025 12:13:43 AM ******/
 CREATE TYPE [dbo].[type_list_bigint] AS TABLE(
 	[value] [bigint] NULL
 )
 GO
-/****** Object:  Synonym [bud].[Employee]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Synonym [bud].[Employee]    Script Date: 10/12/2025 12:13:43 AM ******/
 CREATE SYNONYM [bud].[Employee] FOR [KH.BudgetManager].[dbo].[Employee]
 GO
-/****** Object:  Table [bud].[bud_config]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Table [bud].[bud_config]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -310,7 +308,7 @@ CREATE TABLE [bud].[bud_config](
 	[modified_date] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_template]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  Table [bud].[bud_template]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -335,7 +333,7 @@ CREATE TABLE [bud].[bud_template](
 	[modified_date] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  View [bud].[coa_v]    Script Date: 10/6/2025 11:12:42 PM ******/
+/****** Object:  View [bud].[coa_v]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -359,7 +357,7 @@ inner join bud.bud_Template b on a.TemplateID = b.TemplateID
 
 
 GO
-/****** Object:  Table [dbo].[adm_flex_value_sets]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [dbo].[adm_flex_value_sets]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -376,7 +374,7 @@ CREATE TABLE [dbo].[adm_flex_value_sets](
 	[modified_date] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_flex_hierarchy]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [dbo].[adm_flex_hierarchy]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -392,7 +390,7 @@ CREATE TABLE [dbo].[adm_flex_hierarchy](
 	[hierarchy_type] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  UserDefinedFunction [bud].[func_config_segment]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  UserDefinedFunction [bud].[func_config_segment]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -465,62 +463,7 @@ return
 		   )
 
 GO
-/****** Object:  Table [bud].[bud_AccountingProposal]    Script Date: 10/6/2025 11:12:43 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_AccountingProposal](
-	[AccountingProposalID] [bigint] NULL,
-	[AccountingProposalNo] [nvarchar](256) NULL,
-	[BudgetGroup] [nvarchar](256) NULL,
-	[Period] [nvarchar](256) NULL,
-	[Status] [nvarchar](256) NULL,
-	[ApprovalUser] [nvarchar](256) NULL,
-	[TotalAmount] [decimal](20, 6) NULL,
-	[ApprovalTotalAmount] [decimal](20, 6) NULL,
-	[created_by] [nvarchar](256) NULL,
-	[created_date] [datetime] NULL,
-	[modified_by] [nvarchar](256) NULL,
-	[modified_date] [datetime] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_AccountingProposalDetail]    Script Date: 10/6/2025 11:12:43 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_AccountingProposalDetail](
-	[AccountingProposalDetailID] [bigint] NULL,
-	[AccountingProposalID] [bigint] NULL,
-	[ParentID] [nvarchar](256) NULL,
-	[ParentFlag] [nvarchar](256) NULL,
-	[RequisitionType] [nvarchar](256) NULL,
-	[Amount] [decimal](20, 6) NULL,
-	[ApprovalAmount] [decimal](20, 6) NULL,
-	[Segment1] [nvarchar](500) NULL,
-	[Segment2] [nvarchar](500) NULL,
-	[Segment3] [nvarchar](500) NULL,
-	[Segment4] [nvarchar](500) NULL,
-	[Segment5] [nvarchar](500) NULL,
-	[Segment6] [nvarchar](500) NULL,
-	[Segment7] [nvarchar](500) NULL,
-	[Segment8] [nvarchar](500) NULL,
-	[Segment9] [nvarchar](500) NULL,
-	[Segment10] [nvarchar](500) NULL,
-	[Description] [nvarchar](256) NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_AccountingProposalHistory]    Script Date: 10/6/2025 11:12:43 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_AccountingProposalHistory](
-	[AccountingProposalHistoryID] [bigint] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_balances]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [bud].[bud_balances]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -551,27 +494,92 @@ CREATE TABLE [bud].[bud_balances](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_plan]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [bud].[bud_budget_adjustment_details]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [bud].[bud_budget_plan](
-	[BudgetPlanID] [bigint] NULL,
-	[Period] [nvarchar](10) NULL,
-	[Status] [nvarchar](256) NULL,
+CREATE TABLE [bud].[bud_budget_adjustment_details](
+	[budget_adjustment_detail_id] [bigint] NOT NULL,
+	[budget_adjustment_id] [bigint] NULL,
+	[parent_id] [nvarchar](256) NULL,
+	[parent_flag] [nvarchar](256) NULL,
+	[adjustment_type] [nvarchar](256) NULL,
+	[amount] [decimal](20, 6) NULL,
+	[approved_amount] [decimal](20, 6) NULL,
+	[segment1] [nvarchar](500) NULL,
+	[segment2] [nvarchar](500) NULL,
+	[segment3] [nvarchar](500) NULL,
+	[segment4] [nvarchar](500) NULL,
+	[segment5] [nvarchar](500) NULL,
+	[segment6] [nvarchar](500) NULL,
+	[segment7] [nvarchar](500) NULL,
+	[segment8] [nvarchar](500) NULL,
+	[segment9] [nvarchar](500) NULL,
+	[segment10] [nvarchar](500) NULL,
+	[description] [nvarchar](1000) NULL,
+	[comment] [nvarchar](1000) NULL,
+	[change_type] [nvarchar](50) NULL,
+	[approved_change_type] [nvarchar](50) NULL,
+	[ref_id] [bigint] NULL,
+ CONSTRAINT [PK_bud_budget_adjustment_details] PRIMARY KEY CLUSTERED 
+(
+	[budget_adjustment_detail_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [bud].[bud_budget_adjustment_histories]    Script Date: 10/12/2025 12:13:43 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[bud_budget_adjustment_histories](
+	[budget_adjustment_history_id] [bigint] IDENTITY(1,1) NOT NULL,
+	[budget_adjustment_id] [bigint] NULL,
+	[budget_adjustment_no] [nvarchar](256) NULL,
+	[from_status] [nvarchar](256) NULL,
+	[to_status] [nvarchar](256) NULL,
+	[comment] [nvarchar](1000) NULL,
+	[created_by] [nvarchar](256) NULL,
+	[created_date] [datetime] NULL,
+ CONSTRAINT [PK_bud_budget_adjustment_histories] PRIMARY KEY CLUSTERED 
+(
+	[budget_adjustment_history_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [bud].[bud_budget_adjustments]    Script Date: 10/12/2025 12:13:43 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[bud_budget_adjustments](
+	[budget_adjustment_id] [bigint] NOT NULL,
+	[budget_adjustment_no] [nvarchar](256) NULL,
+	[budget_group] [nvarchar](256) NULL,
+	[period] [nvarchar](256) NULL,
+	[status] [nvarchar](256) NULL,
+	[approval_username] [nvarchar](256) NULL,
+	[total_amount] [decimal](20, 6) NULL,
+	[approval_total_amount] [decimal](20, 6) NULL,
 	[created_by] [nvarchar](256) NULL,
 	[created_date] [datetime] NULL,
 	[modified_by] [nvarchar](256) NULL,
-	[modified_date] [datetime] NULL
+	[modified_date] [datetime] NULL,
+	[description] [nvarchar](1000) NULL,
+	[comment] [nvarchar](1000) NULL,
+ CONSTRAINT [PK_bud_budget_adjustments] PRIMARY KEY CLUSTERED 
+(
+	[budget_adjustment_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_plan_detail]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [bud].[bud_budget_plan_details]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [bud].[bud_budget_plan_detail](
+CREATE TABLE [bud].[bud_budget_plan_details](
 	[BudgetPlanDetailID] [bigint] NULL,
 	[BudgetPlanID] [bigint] NULL,
 	[Segment1] [nvarchar](500) NULL,
@@ -587,7 +595,22 @@ CREATE TABLE [bud].[bud_budget_plan_detail](
 	[Amount] [decimal](20, 4) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_request_details]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [bud].[bud_budget_plans]    Script Date: 10/12/2025 12:13:43 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[bud_budget_plans](
+	[BudgetPlanID] [bigint] NULL,
+	[Period] [nvarchar](10) NULL,
+	[Status] [nvarchar](256) NULL,
+	[created_by] [nvarchar](256) NULL,
+	[created_date] [datetime] NULL,
+	[modified_by] [nvarchar](256) NULL,
+	[modified_date] [datetime] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [bud].[bud_budget_request_details]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -609,7 +632,7 @@ CREATE TABLE [bud].[bud_budget_request_details](
 	[balance_id] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_requests]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [bud].[bud_budget_requests]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -629,47 +652,7 @@ CREATE TABLE [bud].[bud_budget_requests](
 	[modified_date] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_FlexHierarchy]    Script Date: 10/6/2025 11:12:43 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_FlexHierarchy](
-	[bud_FlexHierarchyID] [bigint] NOT NULL,
-	[ChildValue] [nvarchar](500) NULL,
-	[ParentValue] [nvarchar](500) NULL,
-	[HierarchyType] [int] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_FlexValues]    Script Date: 10/6/2025 11:12:43 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_FlexValues](
-	[FlexValueID] [bigint] NOT NULL,
-	[FlexValue] [nvarchar](500) NULL,
-	[FlexValueName] [nvarchar](500) NULL,
-	[Description] [nvarchar](500) NULL,
-	[FlexValueSetID] [bigint] NULL,
-	[created_by] [nvarchar](256) NULL,
-	[created_date] [datetime] NULL,
-	[modified_by] [nvarchar](256) NULL,
-	[modified_date] [datetime] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_FlexValueSets]    Script Date: 10/6/2025 11:12:43 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_FlexValueSets](
-	[FlexValueSetID] [bigint] NOT NULL,
-	[FlexValueSetName] [nvarchar](500) NULL,
-	[Description] [nvarchar](500) NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_transaction]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [bud].[bud_transaction]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -690,7 +673,7 @@ CREATE TABLE [bud].[bud_transaction](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_flex_values]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [dbo].[adm_flex_values]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -702,45 +685,56 @@ CREATE TABLE [dbo].[adm_flex_values](
 	[flex_value_name] [nvarchar](500) NULL,
 	[enable_flag] [nvarchar](10) NULL,
 	[period] [nvarchar](10) NULL,
-	[description] [nvarchar](500) NULL
+	[description] [nvarchar](500) NULL,
+	[created_by] [nvarchar](256) NULL,
+	[created_date] [datetime] NULL,
+	[modified_by] [nvarchar](256) NULL,
+	[modified_date] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[bud_AdjustmentProposal]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [dbo].[adm_scope]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[bud_AdjustmentProposal](
-	[AdjustmentProposalID] [bigint] NULL
+CREATE TABLE [dbo].[adm_scope](
+	[scope_id] [int] NOT NULL,
+	[scope_code] [nvarchar](255) NULL,
+	[scope_name] [nvarchar](1000) NULL,
+	[description] [nvarchar](255) NULL,
+ CONSTRAINT [pk_scope] PRIMARY KEY CLUSTERED 
+(
+	[scope_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Employee]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  Table [dbo].[employee]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Employee](
+CREATE TABLE [dbo].[employee](
 	[EmployeeID] [bigint] NULL,
 	[EmployeeCode] [nvarchar](256) NULL,
 	[Fullname] [nvarchar](256) NULL,
 	[Username] [nvarchar](256) NULL
 ) ON [PRIMARY]
 GO
-ALTER TABLE [bud].[bud_budget_plan] ADD  CONSTRAINT [DF_bud_BudgetPlan_BudgetPlanID]  DEFAULT (NEXT VALUE FOR [seq_bud_BudgetPlan]) FOR [BudgetPlanID]
+ALTER TABLE [bud].[bud_budget_adjustment_details] ADD  CONSTRAINT [DF_bud_budget_adjustment_details_budget_adjustment_detail_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_adjustment_details]) FOR [budget_adjustment_detail_id]
 GO
-ALTER TABLE [bud].[bud_budget_plan_detail] ADD  CONSTRAINT [DF_bud_BudgetPlanDetail_BudgetPlanID]  DEFAULT (NEXT VALUE FOR [seq_bud_BudgetPlanDetail]) FOR [BudgetPlanDetailID]
+ALTER TABLE [bud].[bud_budget_adjustment_histories] ADD  CONSTRAINT [DF_bud_budget_adjustment_histories_budget_adjustment_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_adjustments]) FOR [budget_adjustment_id]
+GO
+ALTER TABLE [bud].[bud_budget_adjustments] ADD  CONSTRAINT [DF_bud_budget_adjustments_budget_adjustment_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_adjustments]) FOR [budget_adjustment_id]
+GO
+ALTER TABLE [bud].[bud_budget_plan_details] ADD  CONSTRAINT [DF_bud_BudgetPlanDetail_BudgetPlanID]  DEFAULT (NEXT VALUE FOR [seq_bud_BudgetPlanDetail]) FOR [BudgetPlanDetailID]
+GO
+ALTER TABLE [bud].[bud_budget_plans] ADD  CONSTRAINT [DF_bud_BudgetPlan_BudgetPlanID]  DEFAULT (NEXT VALUE FOR [seq_bud_BudgetPlan]) FOR [BudgetPlanID]
 GO
 ALTER TABLE [bud].[bud_budget_request_details] ADD  CONSTRAINT [DF_bud_budget_request_details_budget_request_detail_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_request_details]) FOR [budget_request_detail_id]
 GO
 ALTER TABLE [bud].[bud_budget_requests] ADD  CONSTRAINT [DF_bud_budget_requests_budget_request_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_requests]) FOR [budget_request_id]
 GO
 ALTER TABLE [bud].[bud_config] ADD  CONSTRAINT [DF_bud_config_config_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_Config]) FOR [config_id]
-GO
-ALTER TABLE [bud].[bud_FlexHierarchy] ADD  CONSTRAINT [DF_bud_FlexHierarchy_FlexLink]  DEFAULT (NEXT VALUE FOR [seq_bud_FlexHierarchy]) FOR [bud_FlexHierarchyID]
-GO
-ALTER TABLE [bud].[bud_FlexValues] ADD  CONSTRAINT [DF_bud_FlexValues_FlexValueID_1]  DEFAULT (NEXT VALUE FOR [seq_bud_flexValues]) FOR [FlexValueID]
-GO
-ALTER TABLE [bud].[bud_FlexValueSets] ADD  CONSTRAINT [DF_bud_FlexValueSets_FlexValueSetID]  DEFAULT (NEXT VALUE FOR [seq_bud_FlexValueSets]) FOR [FlexValueSetID]
 GO
 ALTER TABLE [bud].[bud_template] ADD  CONSTRAINT [DF_bud_Template_TemplateID]  DEFAULT (NEXT VALUE FOR [seq_bud_Template]) FOR [template_id]
 GO
@@ -750,7 +744,7 @@ ALTER TABLE [dbo].[adm_flex_value_sets] ADD  CONSTRAINT [DF_adm_flex_value_sets_
 GO
 ALTER TABLE [dbo].[adm_flex_values] ADD  CONSTRAINT [DF_adm_flex_values_flex_value_id]  DEFAULT (NEXT VALUE FOR [seq_adm_flex_values]) FOR [flex_value_id]
 GO
-/****** Object:  StoredProcedure [bud].[proc_hold_balance]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_hold_balance]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -996,7 +990,83 @@ from #tblDetail a
 		   
 END
 GO
-/****** Object:  StoredProcedure [bud].[proc_hold_balance_test]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_hold_balance_adjustment]    Script Date: 10/12/2025 12:13:43 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ 
+ --=====================================
+ --Hold balance by adjustment down type row/cắt ngân sách cho type donw của đề nghị điều chỉnh
+ --(cut balance amount from balance)
+ --phamkhanhhand Oct 11, 2025
+-- =============================================
+CREATE   PROCEDURE [bud].[proc_hold_balance_adjustment]
+
+@username nvarchar(256),
+@adjustment_id bigint
+ 
+AS
+BEGIN 
+
+declare @now datetime = getdate(),
+@period nvarchar(256), --year
+@RequestDetail [bud].[bud_type_check_balance_detail]   
+ 
+
+ select @period = a.period
+ from bud_budget_adjustments a
+ where a.budget_adjustment_id = @adjustment_id
+
+
+ insert into @RequestDetail(
+ balance_id,
+ amount,
+ source_detail_id,
+ source_header_id,
+ segment1,
+ segment2,
+ segment3,
+ segment4,
+ segment5,
+ segment6,
+ segment7,
+ segment8,
+ segment9,
+ segment10 
+ )
+
+ select 
+ 
+ NULL  balance_id,
+ case when a.adjustment_type='ADDITION' then -a.amount else a.amount end, --sub because hold
+ a.budget_adjustment_detail_id source_detail_id,
+ a.budget_adjustment_id source_header_id,
+ segment1,
+ segment2,
+ segment3,
+ segment4,
+ segment5,
+ segment6,
+ segment7,
+ segment8,
+ segment9,
+ segment10 
+ from bud_budget_adjustment_details a
+ where a.budget_adjustment_id = @adjustment_id
+ ---and a.change_type =N'DOWN'
+ and (  
+	 (a.adjustment_type='ADDITION' and a.amount < 0)
+	 or (a.adjustment_type='TRANSFER' and a.parent_flag='Y')
+ ) 
+  
+
+ exec [bud].[proc_hold_balance] @username = @username, @period = @period, @requestDetail = @requestDetail
+
+		   
+END
+GO
+/****** Object:  StoredProcedure [bud].[proc_hold_balance_test]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1252,7 +1322,90 @@ from #tblDetail a
 		   
 END
 GO
-/****** Object:  StoredProcedure [bud].[proc_revert_balance]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_hold_gap_balance_adjustment]    Script Date: 10/12/2025 12:13:43 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ 
+ --=====================================
+ --Hold balance by adjustment down type row/cắt ngân sách cho type donw của đề nghị điều chỉnh
+ --(cut balance amount from balance)
+ --phamkhanhhand Oct 11, 2025
+-- =============================================
+CREATE   PROCEDURE [bud].[proc_hold_gap_balance_adjustment]
+
+@username nvarchar(256),
+@adjustment_id bigint
+ 
+AS
+BEGIN 
+
+declare @now datetime = getdate(),
+@period nvarchar(256), --year
+@RequestDetail [bud].[bud_type_check_balance_detail]   
+ 
+
+ select @period = a.period
+ from bud_budget_adjustments a
+ where a.budget_adjustment_id = @adjustment_id
+
+
+ insert into @RequestDetail(
+ balance_id,
+ amount,
+ source_detail_id,
+ source_header_id,
+ segment1,
+ segment2,
+ segment3,
+ segment4,
+ segment5,
+ segment6,
+ segment7,
+ segment8,
+ segment9,
+ segment10 
+ )
+
+ select 
+ 
+ NULL  balance_id,
+ case when a.adjustment_type='ADDITION' then - (a.approved_amount  -a.amount)
+ 
+ --transfer
+ else (a.approved_amount-a.amount) end
+ 
+ --chenh lech amount va approved amount
+ 
+ , --sub because hold
+ a.budget_adjustment_detail_id source_detail_id,
+ a.budget_adjustment_id source_header_id,
+ segment1,
+ segment2,
+ segment3,
+ segment4,
+ segment5,
+ segment6,
+ segment7,
+ segment8,
+ segment9,
+ segment10 
+ from bud_budget_adjustment_details a
+ where a.budget_adjustment_id = @adjustment_id
+ ---and a.change_type =N'DOWN'
+ and (  
+	 (a.adjustment_type='ADDITION' and a.approved_amount < 0 and (a.approved_amount < a.amount))
+	 or (a.adjustment_type='TRANSFER' and a.parent_flag='Y' and a.approved_amount> a.amount)
+ ) 
+  
+
+ exec [bud].[proc_hold_balance] @username = @username, @period = @period, @requestDetail = @requestDetail
+
+		   
+END
+GO
+/****** Object:  StoredProcedure [bud].[proc_revert_balance]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1330,7 +1483,49 @@ BEGIN
   
 END
 GO
-/****** Object:  StoredProcedure [bud].[proc_revert_balance_test]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_revert_balance_adjustment]    Script Date: 10/12/2025 12:13:43 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ 
+ --=====================================
+ --Hold balance by adjustment down type row/cắt ngân sách cho type donw của đề nghị điều chỉnh
+ --(cut balance amount from balance)
+ --phamkhanhhand Oct 11, 2025
+-- =============================================
+CREATE   PROCEDURE [bud].[proc_revert_balance_adjustment]
+
+@username nvarchar(256),
+@adjustment_id bigint
+ 
+AS
+BEGIN 
+
+declare @now datetime = getdate(),
+@period nvarchar(256), --year
+@ListRequestID [dbo].[type_list_bigint]     
+ 
+ select @period = a.period
+ from bud_budget_adjustments a
+ where a.budget_adjustment_id = @adjustment_id
+
+
+ insert into @ListRequestID( value)
+
+ select 
+ b.budget_request_id
+ from bud_budget_adjustment_details a
+ inner join bud_budget_requests b on b.source_id = a.budget_adjustment_detail_id
+ where a.budget_adjustment_id = @adjustment_id
+ and b.source_type='ADJUSTMENT' 
+   
+ exec [bud].[proc_revert_balance] @username = @username, @period = @period, @ListRequestID = @ListRequestID
+
+		   
+END
+GO
+/****** Object:  StoredProcedure [bud].[proc_revert_balance_test]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1425,252 +1620,7 @@ WAITFOR DELAY '00:00:30'  -- chờ 5 giây
   
 END
 GO
-/****** Object:  StoredProcedure [dbo].[proc_hold_balance]    Script Date: 10/6/2025 11:12:43 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
- 
- --=====================================
- --Hold balance
- --(cut balance amount from balance)
- --phamkhanhhand Oct 04, 2025
--- =============================================
-CREATE   PROCEDURE [dbo].[proc_hold_balance]
-
-@username nvarchar(256),
-@period int, --year
-@RequestDetail [bud].[bud_type_check_balance_detail] READONLY   
- 
-AS
-BEGIN 
-
-declare @now datetime = getdate()
-
---declare @request_head table  
---(
---status nvarchar(256)
---, total_amount decimal(20,6)
---)
-
- 
-
---note that: bud_template block by segment config, mabe sum
---note 2: @RequestDetail segment distinct
---note 3: check is not the same with hold
-
--------------check balance------------
-	begin	
-		select c.balance_id, 
-		 ISNULL(c.remainning_amount,0)  remainning_amount,
-		 ISNULL(c.remainning_amount,0)  - sum(ISNULL(b.amount,0)) AmountLeft,
-		 a.notify_type ,
-		 a.template_concanate
-		 into #tblCalculateBlock --block when the account balance is insufficient
-		from bud.bud_template a
-		inner join bud.bud_config b1 on a.template_id = b1.template_id
-		inner join @RequestDetail b on b.segment1= b1.unit and b.segment2 = b1.division
-		 --and b.segment5= b1.segment5
-			left join bud.bud_balances c on 
-				(a.segment1_type<>'U' or (a.segment1_type='U' and c.segment1 = b.segment1))
-				and (a.segment2_type<>'U' or (a.segment2_type='U' and c.segment2 = b.segment2))
-				and (a.segment3_type<>'U' or (a.segment3_type='U' and c.segment3 = b.segment3))
-				and (a.segment4_type<>'U' or (a.segment4_type='U' and c.segment4 = b.segment4))
-				and (a.segment5_type<>'U' or (a.segment5_type='U' and c.segment5 = b.segment5))
-				and (a.segment6_type<>'U' or (a.segment6_type='U' and c.segment6 = b.segment6))
-				and (a.segment7_type<>'U' or (a.segment7_type='U' and c.segment7 = b.segment7))
-				and (a.segment8_type<>'U' or (a.segment8_type='U' and c.segment8 = b.segment8))
-				and (a.segment9_type<>'U' or (a.segment9_type='U' and c.segment9 = b.segment9))
-				and (a.segment10_type<>'U' or (a.segment10_type='U' and c.segment10 = b.segment10)) 
-				and c.period = @period
-				group by c.balance_id,c.remainning_amount, a.notify_type,
-		 a.template_concanate
-
-
-
-		 --if balance_is null => show err not exists balance
-
-		--select *
-		--from #tblCalculateBlock
-		
-		if exists (
-			select *
-			from #tblCalculateBlock a
-			where a.balance_id is null
-		)
-		or exists (
-			select *
-			from #tblCalculateBlock a
-			where a.notify_type ='B'
-			and a.AmountLeft<0
-		)
-		begin
-
-		
-			select IIF( a.balance_id is null, 1,0) IsNotExists,
-			 IIF( a.AmountLeft<0  , 'F','P') NotEnough,
-			 remainning_amount,
-			 template_concanate
-			from #tblCalculateBlock a
-			where a.notify_type ='B'
-			and a.AmountLeft<0 or a.balance_id is null
-
-			 
-			return
-		end
-		 
-	end
-----------------end check balance------------------
-
-
---------------sub balance---------------
- begin
-
- 
-
-
-		select c.balance_id, 
-			b.amount,
-			b.segment1,
-			b.segment2,
-			b.segment3,
-			b.segment4,
-			b.segment5,
-			b.segment6,
-			b.segment7,
-			b.segment8,
-			b.segment9,
-			b.segment10,
-			b.source_detail_id,
-			b.source_header_id
-			into #tblDetail
-			from bud.bud_template a
-			inner join bud.bud_config b1 on a.template_id = b1.template_id
-			inner join @RequestDetail b on b.segment1= b1.unit and b.segment2 = b1.division
-			 --and b.segment5= b1.segment5
-				inner join bud.bud_balances c on 
-					   (c.segment1 = b.segment1 or (c.segment1 is null and b.segment1 is null))
-					  and (c.segment2 = b.segment2 or (c.segment2 is null and b.segment2 is null))
-					  and (c.segment3 = b.segment3 or (c.segment3 is null and b.segment3 is null))
-					  and (c.segment4 = b.segment4 or (c.segment4 is null and b.segment4 is null))
-					  and (c.segment5 = b.segment5 or (c.segment5 is null and b.segment5 is null))
-					  and (c.segment6 = b.segment6 or (c.segment6 is null and b.segment6 is null))
-					  and (c.segment7 = b.segment7 or (c.segment7 is null and b.segment7 is null))
-					  and (c.segment8 = b.segment8 or (c.segment8 is null and b.segment8 is null))
-					  and (c.segment9 = b.segment9 or (c.segment9 is null and b.segment9 is null))
-					  and (c.segment10 = b.segment10 or (c.segment10 is null and b.segment10 is null))
-				 and  c.period = @period
-
-		update b 
-		set b.remainning_amount =ISNULL(b.remainning_amount,0)-a.amount,
-			b.actual_amount=ISNULL( b.actual_amount,0)-a.amount
-			,b.modified_by = @username
-			,b.modified_date = @now
-		from #tblDetail a 
-			inner join bud.bud_balances b on a.balance_id = b.balance_id  
-			where b.period = @period
-
-
- end
-
---------------end sub balance---------------
-
-declare @total_amount decimal(20,6)
-
-select @total_amount = sum(a.amount)
-from #tblDetail a
- 
-			declare @header_request_id bigint = (NEXT VALUE FOR [bud].[seq_bud_budget_requests])
-			--add request 
-			INSERT INTO [bud].[bud_budget_requests]
-					   ([budget_request_id]
-					   ,[source_type]
-					   ,[source_id]
-					   ,[source_no]
-					   ,[check_result]
-					   ,[status]
-					   ,[request_type]
-					   ,[total_amount],
-					   created_by,
-					   created_date
-				   )
-				 VALUES
-					   (
-					   @header_request_id
-					   ,''
-					   ,NULL --<source_id, nvarchar(256),>
-					   ,NULL --<source_no, nvarchar(256),>
-					   ,NULL--<check_result, nvarchar(256),> F-Fail; P-pass
-					   ,'H'--status --B: begin, H: holded, R: reverted, C: confirm-complete
-					   ,NULL--<request_type, nvarchar(256),>
-					   ,@total_amount--<total_amount, decimal(20,6),>
-					   ,@username --created_by,
-					   ,@now-- created_date
-					   )
-
-
-		   
-			INSERT INTO [bud].[bud_budget_request_details]
-					   ([budget_request_detail_id]
-					   ,[budget_request_id]
-					   ,balance_id
-					   ,[amount]
-					   ,[segment1]
-					   ,[segment2]
-					   ,[segment3]
-					   ,[segment4]
-					   ,[segment5]
-					   ,[segment6]
-					   ,[segment7]
-					   ,[segment8]
-					   ,[segment9]
-					   ,[segment10])
-				 select 
-
-				(NEXT VALUE FOR [bud].[seq_bud_budget_request_details]) [budget_request_detail_id]
-					   ,@header_request_id [budget_request_id]
-					   ,balance_id
-					   ,[amount]
-					   ,[segment1]
-					   ,[segment2]
-					   ,[segment3]
-					   ,[segment4]
-					   ,[segment5]
-					   ,[segment6]
-					   ,[segment7]
-					   ,[segment8]
-					   ,[segment9]
-					   ,[segment10]
-
-				 from #tblDetail a
-
-
---transaction
-
-
-		INSERT INTO [bud].[bud_transaction]
-				   ([ref_type]
-				   ,[ref_id]
-				   ,[amount]
-				   ,[description],
-				   created_by,
-				   created_date)
-			 VALUES
-				   (NULL--<ref_type, int,>
-				   ,@header_request_id---<ref_id, bigint,>
-				   , @total_amount --<amount, decimal(20,6),>
-				   , N'hold balance' --<description, nvarchar(1024),>
-				   
-				   ,@username --created_by,
-				   ,@now-- created_date
-				   )
-
- 
- select @header_request_id header_request_id
-		   
-END
-GO
-/****** Object:  StoredProcedure [dbo].[proc_revert_balance]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  StoredProcedure [dbo].[proc_revert_balance_test]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1680,7 +1630,7 @@ GO
  --revert balance, <> hold
  --phamkhanhhand Oct 05, 2025
 -- =============================================
-CREATE   PROCEDURE [dbo].[proc_revert_balance]
+CREATE   PROCEDURE [dbo].[proc_revert_balance_test]
 
 @username nvarchar(256),
 @period int, --year
@@ -1749,7 +1699,7 @@ BEGIN
   
 END
 GO
-/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_set]    Script Date: 10/6/2025 11:12:43 PM ******/
+/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_set]    Script Date: 10/12/2025 12:13:43 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1848,13 +1798,11 @@ INSERT INTO [dbo].[adm_flex_hierarchy]
 
 END
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Tab nào' , @level0type=N'SCHEMA',@level0name=N'bud', @level1type=N'TABLE',@level1name=N'bud_AccountingProposalDetail', @level2type=N'COLUMN',@level2name=N'RequisitionType'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Tab nào' , @level0type=N'SCHEMA',@level0name=N'bud', @level1type=N'TABLE',@level1name=N'bud_budget_adjustment_details', @level2type=N'COLUMN',@level2name=N'adjustment_type'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'hold, unhold' , @level0type=N'SCHEMA',@level0name=N'bud', @level1type=N'TABLE',@level1name=N'bud_budget_requests', @level2type=N'COLUMN',@level2name=N'request_type'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Budget line' , @level0type=N'SCHEMA',@level0name=N'bud', @level1type=N'TABLE',@level1name=N'bud_config', @level2type=N'COLUMN',@level2name=N'budget_line'
-GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'0: set ; 1-value' , @level0type=N'SCHEMA',@level0name=N'bud', @level1type=N'TABLE',@level1name=N'bud_FlexHierarchy', @level2type=N'COLUMN',@level2name=N'HierarchyType'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'C: chặn; CB- Cảnh báo' , @level0type=N'SCHEMA',@level0name=N'bud', @level1type=N'TABLE',@level1name=N'bud_template', @level2type=N'COLUMN',@level2name=N'notify_type'
 GO
