@@ -8,7 +8,9 @@ import com.phamkhanhhand.contho.budget_management.dto.CommonApprovalResponseDTO;
 import com.phamkhanhhand.contho.budget_management.dto.CommonRequestDTO;
 import com.phamkhanhhand.contho.budget_management.security.DataUserContext;
 import com.phamkhanhhand.contho.budget_management.service.AdjustmentService;
+import com.phamkhanhhand.contho.budget_management.service.RequestFormService;
 import com.phamkhanhhand.contho.budget_management.service.impl.AdjustmentServiceImpl;
+import com.phamkhanhhand.contho.budget_management.service.impl.RequestFormServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,7 @@ import java.util.List;
 public class RequestFormController {
     private final String headMapping = "/api/request-form";
 
-    private final AdjustmentService adjustmentService;
-    private final AdjustmentServiceImpl adjustmentServiceImpl;
+    private final RequestFormService requestFormService;
 
 
     /*
@@ -31,20 +32,46 @@ public class RequestFormController {
      */
     @PostMapping("get-by-id/{id}")
     public AdjustmentDTO getByID(@RequestPart Long id) {
-        return adjustmentService.getByID(id);
+        return requestFormService.getByID(id);
     }
 
 
 
     /*
      * Send to the leader of department
+     * A01-A02
      * phamkhanhhand Oct 11, 2025
      */
     @PostMapping("submit")
     @CheckPermission(uri = headMapping +"/submit", scopes = {Enumeration.Scopes.ADD, Enumeration.Scopes.EDIT})
     public CommonApprovalResponseDTO submit(@RequestBody CommonRequestDTO requestDTO)
     {
-        return adjustmentService.submitRequestForm(requestDTO);
+        return requestFormService.submit(requestDTO);
+    }
+
+
+    /*
+     * Approve A02-> A04
+     * Reject A02-> A03
+     * phamkhanhhand Oct 11, 2025
+     */
+    @PostMapping("approve")
+    @CheckPermission(uri = headMapping +"/approve", scopes = {Enumeration.Scopes.APPROVE})
+    public CommonApprovalResponseDTO approve(@RequestBody CommonRequestDTO requestDTO)
+    {
+        return requestFormService.approve(requestDTO);
+    }
+
+
+    /*
+     * complete A04-A06
+     * phamkhanhhand Oct 11, 2025
+     */
+    @PostMapping("complete")
+    @CheckPermission(uri = headMapping +"/complete", scopes = {Enumeration.Scopes.APPROVE})
+    public CommonApprovalResponseDTO complete(@RequestBody CommonRequestDTO requestDTO)
+    {
+        return requestFormService.complete(requestDTO);
     }
 
 

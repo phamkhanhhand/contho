@@ -1,12 +1,15 @@
 package com.phamkhanhhand.contho.budget_management.repository.impl;
 
+import com.phamkhanhhand.contho.budget_management.common.Enumeration;
 import com.phamkhanhhand.contho.budget_management.model.Adjustment;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,5 +55,51 @@ public class AdjustmentRepositoryImpl extends BaseRepositoryImpl {
 //        execute(sql, id);
 //    }
 
+
+
+    public boolean holdByAdjustmentId(Long id, String username) {
+
+        var res= false;
+
+        String sql = "{call [bud].[proc_hold_balance_adjustment](?, ?)}";
+
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, username, id);
+
+        if (!result.isEmpty()) {
+            var row = result.get(0); // lấy dòng đầu tiên
+
+            String rsCheck = (String) row.get("result");
+            Integer numberAffect = (Integer) row.get("numberAffect");
+
+            if(StringUtils.equalsIgnoreCase(rsCheck, Enumeration.Flag.PASS)){
+                res = true;
+            }
+
+        }
+        return res;
+    }
+
+
+    public boolean holdGAPByAdjustmentId(Long id, String username) {
+
+        var res= false;
+
+        String sql = "{call [bud].[proc_hold_gap_balance_adjustment](?, ?)}";
+
+        List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, username, id);
+
+        if (!result.isEmpty()) {
+            var row = result.get(0); // lấy dòng đầu tiên
+
+            String rsCheck = (String) row.get("result");
+            Integer numberAffect = (Integer) row.get("numberAffect");
+
+            if(StringUtils.equalsIgnoreCase(rsCheck, Enumeration.Flag.PASS)){
+                res = true;
+            }
+
+        } 
+        return res;
+    }
 
 }

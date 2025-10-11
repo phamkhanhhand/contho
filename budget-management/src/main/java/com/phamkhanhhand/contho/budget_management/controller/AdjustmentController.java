@@ -3,9 +3,7 @@ package com.phamkhanhhand.contho.budget_management.controller;
 import com.phamkhanhhand.contho.budget_management.aspect.CheckPermission;
 import com.phamkhanhhand.contho.budget_management.common.Enumeration;
 import com.phamkhanhhand.contho.budget_management.common.UserContextUtil;
-import com.phamkhanhhand.contho.budget_management.dto.AdjustmentDTO;
-import com.phamkhanhhand.contho.budget_management.dto.BalanceDTO;
-import com.phamkhanhhand.contho.budget_management.dto.BudgetRequestDTO;
+import com.phamkhanhhand.contho.budget_management.dto.*;
 import com.phamkhanhhand.contho.budget_management.security.DataUserContext;
 import com.phamkhanhhand.contho.budget_management.service.AdjustmentService;
 import com.phamkhanhhand.contho.budget_management.service.BalanceService;
@@ -21,31 +19,47 @@ import java.util.List;
 @RequestMapping("/api/adjustment")
 public class AdjustmentController {
 
+    private final String headMapping = "/api/adjustment";
     private final AdjustmentService adjustmentService;
-    private final AdjustmentServiceImpl adjustmentServiceImpl;
+
+
 
     /*
-    * hold budget from balances
-    * phamkhanhhand Oct 04, 2025
+     * Send to the leader of department
+     * A01-A02
+     * phamkhanhhand Oct 11, 2025
      */
-    @PostMapping("get-by-id/{id}")
-    public AdjustmentDTO getByID(@RequestPart Long id) {
-        return adjustmentService.getByID(id);
+    @PostMapping("submit")
+    @CheckPermission(uri = headMapping +"/submit", scopes = {Enumeration.Scopes.ADD, Enumeration.Scopes.EDIT})
+    public CommonApprovalResponseDTO submit(@RequestBody CommonRequestDTO requestDTO)
+    {
+        return adjustmentService.submit(requestDTO);
     }
 
-    @GetMapping
-    @CheckPermission(uri = "/api/test/data", scopes = {Enumeration.Scopes.VIEW})
-    public List<AdjustmentDTO> getBudgets() {
 
-        DataUserContext ctx = UserContextUtil.getCurrentUserContext();
-        if (ctx == null) {
-            throw new RuntimeException("User not authenticated");
-        }
-
-
-        var x = adjustmentService.getAll();
-
-        return x;
+    /*
+     * Approve A02-> A04
+     * Reject A02-> A03
+     * phamkhanhhand Oct 11, 2025
+     */
+    @PostMapping("approve")
+    @CheckPermission(uri = headMapping +"/approve", scopes = {Enumeration.Scopes.APPROVE})
+    public CommonApprovalResponseDTO approve(@RequestBody CommonRequestDTO requestDTO)
+    {
+        return adjustmentService.approve(requestDTO);
     }
+
+
+    /*
+     * complete A04-A06
+     * phamkhanhhand Oct 11, 2025
+     */
+    @PostMapping("complete")
+    @CheckPermission(uri = headMapping +"/complete", scopes = {Enumeration.Scopes.APPROVE})
+    public CommonApprovalResponseDTO complete(@RequestBody CommonRequestDTO requestDTO)
+    {
+        return adjustmentService.complete(requestDTO);
+    }
+
 
 }
