@@ -55,4 +55,92 @@ public class Enumeration {
         }
     }
 
+    public class AdjustmentTabType {
+
+        /*
+         * ADD-SUB NEW BUDGET LINE/ THEM-GIAM NGAN SACH
+         */
+        public static final String ADDITION = "ADDITION";
+
+        /*
+         * TRANSFER THIS LINE TO THAT LINE/DIEU CHUYEN HANG MUC TU MUC NAY SANG MUC KIA
+         */
+        public static final String TRANSFER = "TRANSFER";
+
+    }
+
+
+    public class Flag {
+
+        /*
+         * Yes
+         */
+        public static final String Y = "Y";
+
+        /*
+         * No
+         */
+        public static final String N = "N";
+
+    }
+
+
+
+    public class ChangeType {
+
+        /*
+         * UP
+         */
+        public static final String UP = "UP";
+
+        /*
+         * DOWN
+         */
+        public static final String DOWN = "DOWN";
+
+
+    }
+
+
+
+    public class RequestFormStatus {
+
+        /*
+        * create new/ tạo mới
+         */
+        public static final String CREATE = "A01";
+
+        /*
+        * submit to leader/trình lên lãnh đạo
+         */
+        public static final String SUBMIT = "A02";
+
+        /*
+        * leader rejected
+         */
+        public static final String REJECT = "A03";
+
+        /*
+         * leader approved
+         */
+        public static final String APPROVE = "A04";
+
+        /*
+         * coordination rejected
+         */
+        public static final String REJECT_COORDINATOR = "A05";
+
+        /*
+         * coordination approve
+         */
+        public static final String COMPLETE = "A06";
+
+
+        /*
+         * cancel
+         */
+        public static final String CANCEL = "A07";
+    }
+
+
 }

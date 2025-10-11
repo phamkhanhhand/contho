@@ -77,6 +77,11 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version> <!-- hoặc phiên bản mới hơn -->
+		</dependency>
 
 <!--security-->
 <!--no need spring-boot-starter-security coz not authen in this service. but authen in gateway-->

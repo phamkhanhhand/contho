@@ -93,11 +93,11 @@ public class AdjustmentDetail {
 //
 //
 //    @Column(name = "created_by")
-//    private BigDecimal createdBy;
+//    private String createdBy;
 //
 //
 //    @Column(name = "modified_by")
-//    private BigDecimal modifiedBy;
+//    private String modifiedBy;
 //
 //
 //    @Column(name = "created_date")
