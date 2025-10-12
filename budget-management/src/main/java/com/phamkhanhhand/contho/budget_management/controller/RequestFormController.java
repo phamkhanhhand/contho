@@ -6,6 +6,7 @@ import com.phamkhanhhand.contho.budget_management.common.UserContextUtil;
 import com.phamkhanhhand.contho.budget_management.dto.AdjustmentDTO;
 import com.phamkhanhhand.contho.budget_management.dto.CommonApprovalResponseDTO;
 import com.phamkhanhhand.contho.budget_management.dto.CommonRequestDTO;
+import com.phamkhanhhand.contho.budget_management.feign.KafkaProducer;
 import com.phamkhanhhand.contho.budget_management.security.DataUserContext;
 import com.phamkhanhhand.contho.budget_management.service.AdjustmentService;
 import com.phamkhanhhand.contho.budget_management.service.RequestFormService;
@@ -24,6 +25,7 @@ public class RequestFormController {
     private final String headMapping = "/api/request-form";
 
     private final RequestFormService requestFormService;
+    private final KafkaProducer kafkaProducer;
 
 
     /*
@@ -33,7 +35,13 @@ public class RequestFormController {
     @GetMapping("get-by-id/{id}")
     public AdjustmentDTO getByID(@PathVariable Long id) {
 
-        return requestFormService.getByID(id);
+        kafkaProducer.sendEntity("my-topic","Helo ae");
+
+
+
+        return null;
+
+//        return requestFormService.getByID(id);
 
 
 
