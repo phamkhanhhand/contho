@@ -83,7 +83,21 @@
 			<version>3.12.0</version> <!-- hoặc phiên bản mới hơn -->
 		</dependency>
 
-<!--security-->
+<!--redis-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
+
+		<!-- Jackson for JSON serialization -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+
+		<!--security-->
 <!--no need spring-boot-starter-security coz not authen in this service. but authen in gateway-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

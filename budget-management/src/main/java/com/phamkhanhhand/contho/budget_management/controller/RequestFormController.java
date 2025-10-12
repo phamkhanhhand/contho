@@ -30,9 +30,13 @@ public class RequestFormController {
     * Get by id
     * phamkhanhhand Oct 04, 2025
      */
-    @PostMapping("get-by-id/{id}")
-    public AdjustmentDTO getByID(@RequestPart Long id) {
+    @GetMapping("get-by-id/{id}")
+    public AdjustmentDTO getByID(@PathVariable Long id) {
+
         return requestFormService.getByID(id);
+
+
+
     }
 
 
@@ -68,7 +72,7 @@ public class RequestFormController {
      * phamkhanhhand Oct 11, 2025
      */
     @PostMapping("complete")
-    @CheckPermission(uri = headMapping +"/complete", scopes = {Enumeration.Scopes.APPROVE})
+    @CheckPermission(uri = headMapping +"/complete", scopes = {Enumeration.Scopes.COMPLETE})
     public CommonApprovalResponseDTO complete(@RequestBody CommonRequestDTO requestDTO)
     {
         return requestFormService.complete(requestDTO);

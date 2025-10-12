@@ -55,7 +55,7 @@ public class AdjustmentController {
      * phamkhanhhand Oct 11, 2025
      */
     @PostMapping("complete")
-    @CheckPermission(uri = headMapping +"/complete", scopes = {Enumeration.Scopes.APPROVE})
+    @CheckPermission(uri = headMapping +"/complete", scopes = {Enumeration.Scopes.COMPLETE})
     public CommonApprovalResponseDTO complete(@RequestBody CommonRequestDTO requestDTO)
     {
         return adjustmentService.complete(requestDTO);

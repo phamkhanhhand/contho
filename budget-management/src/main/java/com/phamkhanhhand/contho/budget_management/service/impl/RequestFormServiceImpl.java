@@ -1,6 +1,7 @@
 package com.phamkhanhhand.contho.budget_management.service.impl;
 
 import com.phamkhanhhand.contho.budget_management.common.Enumeration;
+import com.phamkhanhhand.contho.budget_management.common.RedisService;
 import com.phamkhanhhand.contho.budget_management.common.RequestHeaderUtil;
 import com.phamkhanhhand.contho.budget_management.common.UserContextUtil;
 import com.phamkhanhhand.contho.budget_management.dto.AdjustmentDTO;
@@ -42,6 +43,7 @@ public class RequestFormServiceImpl implements RequestFormService {
     private final AdjustmentHistoryService adjustmentHistoryService;
     private final AdminFeign adminFeign;
 
+    private final RedisService redisService;
 
 
     @Override
@@ -56,7 +58,23 @@ public class RequestFormServiceImpl implements RequestFormService {
     @Override
     public AdjustmentDTO getByID(Long id)
     {
-        Optional<Adjustment> rs = adjustmentReponsitory.findByBudgetAdjustmentID(id);
+
+
+        Optional<Adjustment> rs;
+
+        var cache = redisService.getData("RequestForm_" +id, Adjustment.class);
+
+        if(Objects.isNull(cache)){
+            rs = adjustmentReponsitory.findByBudgetAdjustmentID(id);
+            redisService.saveData("RequestForm_" +id, rs.get());
+        }
+        else
+        {
+            rs=Optional.ofNullable(cache);
+        }
+
+
+
 
         return  adjustmentMapper.toDTO(rs.get());
 
