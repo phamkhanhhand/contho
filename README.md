@@ -4,3 +4,5 @@
 Microsoft.AspNetCore.Cors
 Microsoft.AspNetCore.Authentication.JwtBearer
 Ocelot
+
+Redis, Kafka
