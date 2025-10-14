@@ -1,12 +1,12 @@
 USE [master]
 GO
-/****** Object:  Database [KH.BudgetManager]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Database [KH.BudgetManager]    Script Date: 10/14/2025 10:35:59 PM ******/
 CREATE DATABASE [KH.BudgetManager]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'KH.BudgetManager', FILENAME = N'\KH.BudgetManager.mdf' , SIZE = 73728KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'KH.BudgetManager', FILENAME = N'KH.BudgetManager.mdf' , SIZE = 73728KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
-( NAME = N'KH.BudgetManager_log', FILENAME = N'\KH.BudgetManager_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'KH.BudgetManager_log', FILENAME = N'KH.BudgetManager_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
 GO
 ALTER DATABASE [KH.BudgetManager] SET COMPATIBILITY_LEVEL = 160
@@ -82,18 +82,18 @@ ALTER DATABASE [KH.BudgetManager] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, 
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  User [bud_user]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  User [bud_user]    Script Date: 10/14/2025 10:35:59 PM ******/
 CREATE USER [bud_user] FOR LOGIN [bud_user] WITH DEFAULT_SCHEMA=[bud]
 GO
-/****** Object:  Schema [auth]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Schema [auth]    Script Date: 10/14/2025 10:35:59 PM ******/
 CREATE SCHEMA [auth]
 GO
-/****** Object:  Schema [bud]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Schema [bud]    Script Date: 10/14/2025 10:35:59 PM ******/
 CREATE SCHEMA [bud]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_adm_employees]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_adm_employees]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_adm_employees] 
  AS [bigint]
  START WITH 1
@@ -104,7 +104,18 @@ CREATE SEQUENCE [bud].[seq_adm_employees]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_budget_adjustment_details]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_balances]    Script Date: 10/14/2025 10:36:00 PM ******/
+CREATE SEQUENCE [bud].[seq_bud_balances] 
+ AS [bigint]
+ START WITH 1
+ INCREMENT BY 1
+ MINVALUE -9223372036854775808
+ MAXVALUE 9223372036854775807
+ CACHE 
+GO
+USE [KH.BudgetManager]
+GO
+/****** Object:  Sequence [bud].[seq_bud_budget_adjustment_details]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_bud_budget_adjustment_details] 
  AS [bigint]
  START WITH 1
@@ -115,7 +126,7 @@ CREATE SEQUENCE [bud].[seq_bud_budget_adjustment_details]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_budget_adjustment_histories]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_budget_adjustment_histories]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_bud_budget_adjustment_histories] 
  AS [bigint]
  START WITH 1
@@ -126,7 +137,7 @@ CREATE SEQUENCE [bud].[seq_bud_budget_adjustment_histories]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_budget_adjustments]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_budget_adjustments]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_bud_budget_adjustments] 
  AS [bigint]
  START WITH 1
@@ -137,7 +148,29 @@ CREATE SEQUENCE [bud].[seq_bud_budget_adjustments]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_budget_request_details]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_budget_plan_details]    Script Date: 10/14/2025 10:36:00 PM ******/
+CREATE SEQUENCE [bud].[seq_bud_budget_plan_details] 
+ AS [bigint]
+ START WITH 100
+ INCREMENT BY 1
+ MINVALUE -9223372036854775808
+ MAXVALUE 9223372036854775807
+ CACHE 
+GO
+USE [KH.BudgetManager]
+GO
+/****** Object:  Sequence [bud].[seq_bud_budget_plans]    Script Date: 10/14/2025 10:36:00 PM ******/
+CREATE SEQUENCE [bud].[seq_bud_budget_plans] 
+ AS [bigint]
+ START WITH 1
+ INCREMENT BY 1
+ MINVALUE -9223372036854775808
+ MAXVALUE 9223372036854775807
+ CACHE 
+GO
+USE [KH.BudgetManager]
+GO
+/****** Object:  Sequence [bud].[seq_bud_budget_request_details]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_bud_budget_request_details] 
  AS [bigint]
  START WITH 1
@@ -148,7 +181,7 @@ CREATE SEQUENCE [bud].[seq_bud_budget_request_details]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_budget_requests]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_budget_requests]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_bud_budget_requests] 
  AS [bigint]
  START WITH 1
@@ -159,8 +192,8 @@ CREATE SEQUENCE [bud].[seq_bud_budget_requests]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_BudgetPlan]    Script Date: 10/12/2025 9:25:12 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_BudgetPlan] 
+/****** Object:  Sequence [bud].[seq_bud_configs]    Script Date: 10/14/2025 10:36:00 PM ******/
+CREATE SEQUENCE [bud].[seq_bud_configs] 
  AS [bigint]
  START WITH 1
  INCREMENT BY 1
@@ -170,29 +203,7 @@ CREATE SEQUENCE [bud].[seq_bud_BudgetPlan]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_BudgetPlanDetail]    Script Date: 10/12/2025 9:25:12 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_BudgetPlanDetail] 
- AS [bigint]
- START WITH 100
- INCREMENT BY 1
- MINVALUE -9223372036854775808
- MAXVALUE 9223372036854775807
- CACHE 
-GO
-USE [KH.BudgetManager]
-GO
-/****** Object:  Sequence [bud].[seq_bud_Config]    Script Date: 10/12/2025 9:25:12 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_Config] 
- AS [bigint]
- START WITH 1
- INCREMENT BY 1
- MINVALUE -9223372036854775808
- MAXVALUE 9223372036854775807
- CACHE 
-GO
-USE [KH.BudgetManager]
-GO
-/****** Object:  Sequence [bud].[seq_bud_FlexHierarchy]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_FlexHierarchy]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_bud_FlexHierarchy] 
  AS [bigint]
  START WITH 1
@@ -203,7 +214,7 @@ CREATE SEQUENCE [bud].[seq_bud_FlexHierarchy]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_flexValues]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[seq_bud_flexValues]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[seq_bud_flexValues] 
  AS [bigint]
  START WITH 1
@@ -214,7 +225,7 @@ CREATE SEQUENCE [bud].[seq_bud_flexValues]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[Seq_bud_FlexValueSets]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [bud].[Seq_bud_FlexValueSets]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [bud].[Seq_bud_FlexValueSets] 
  AS [bigint]
  START WITH 1
@@ -225,8 +236,8 @@ CREATE SEQUENCE [bud].[Seq_bud_FlexValueSets]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [bud].[seq_bud_Template]    Script Date: 10/12/2025 9:25:12 PM ******/
-CREATE SEQUENCE [bud].[seq_bud_Template] 
+/****** Object:  Sequence [bud].[seq_bud_templates]    Script Date: 10/14/2025 10:36:00 PM ******/
+CREATE SEQUENCE [bud].[seq_bud_templates] 
  AS [bigint]
  START WITH 1
  INCREMENT BY 1
@@ -236,7 +247,7 @@ CREATE SEQUENCE [bud].[seq_bud_Template]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[seq_adm_flex_hierarchy]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [dbo].[seq_adm_flex_hierarchy]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [dbo].[seq_adm_flex_hierarchy] 
  AS [bigint]
  START WITH 1
@@ -247,7 +258,7 @@ CREATE SEQUENCE [dbo].[seq_adm_flex_hierarchy]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[Seq_adm_flex_value_sets]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [dbo].[Seq_adm_flex_value_sets]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [dbo].[Seq_adm_flex_value_sets] 
  AS [bigint]
  START WITH 1
@@ -258,7 +269,7 @@ CREATE SEQUENCE [dbo].[Seq_adm_flex_value_sets]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[seq_adm_flex_values]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Sequence [dbo].[seq_adm_flex_values]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SEQUENCE [dbo].[seq_adm_flex_values] 
  AS [bigint]
  START WITH 1
@@ -269,8 +280,8 @@ CREATE SEQUENCE [dbo].[seq_adm_flex_values]
 GO
 USE [KH.BudgetManager]
 GO
-/****** Object:  Sequence [dbo].[seq_bud_balance]    Script Date: 10/12/2025 9:25:12 PM ******/
-CREATE SEQUENCE [dbo].[seq_bud_balance] 
+/****** Object:  Sequence [dbo].[seq_bud_balances]    Script Date: 10/14/2025 10:36:00 PM ******/
+CREATE SEQUENCE [dbo].[seq_bud_balances] 
  AS [bigint]
  START WITH 1
  INCREMENT BY 1
@@ -278,7 +289,7 @@ CREATE SEQUENCE [dbo].[seq_bud_balance]
  MAXVALUE 9223372036854775807
  CACHE 
 GO
-/****** Object:  UserDefinedTableType [bud].[bud_type_check_balance_detail]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  UserDefinedTableType [bud].[bud_type_check_balance_detail]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE TYPE [bud].[bud_type_check_balance_detail] AS TABLE(
 	[source_header_id] [bigint] NULL,
 	[source_detail_id] [bigint] NULL,
@@ -296,20 +307,20 @@ CREATE TYPE [bud].[bud_type_check_balance_detail] AS TABLE(
 	[segment10] [nvarchar](500) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[type_list_bigint]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[type_list_bigint]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE TYPE [dbo].[type_list_bigint] AS TABLE(
 	[value] [bigint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[type_list_string]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[type_list_string]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE TYPE [dbo].[type_list_string] AS TABLE(
 	[value] [nvarchar](4000) NULL
 )
 GO
-/****** Object:  Synonym [bud].[Employee]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Synonym [bud].[Employee]    Script Date: 10/14/2025 10:36:00 PM ******/
 CREATE SYNONYM [bud].[Employee] FOR [KH.BudgetManager].[dbo].[Employee]
 GO
-/****** Object:  Table [dbo].[adm_employee_organization]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Table [dbo].[adm_employee_organization]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -324,7 +335,7 @@ CREATE TABLE [dbo].[adm_employee_organization](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_organizations]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Table [dbo].[adm_organizations]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -341,7 +352,7 @@ CREATE TABLE [dbo].[adm_organizations](
 	[department_code] [nvarchar](255) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_employees]    Script Date: 10/12/2025 9:25:12 PM ******/
+/****** Object:  Table [dbo].[adm_employees]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -358,7 +369,7 @@ CREATE TABLE [dbo].[adm_employees](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[employee_organization_unit_lite_v]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  View [dbo].[employee_organization_unit_lite_v]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -377,7 +388,7 @@ inner join adm_employee_organization b on a.employee_id = b.employee_id
 inner join adm_organizations c on b.organization_id = c.organization_id 
 )
 GO
-/****** Object:  Table [dbo].[adm_data_scope_permission]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_data_scope_permission]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -394,12 +405,12 @@ CREATE TABLE [dbo].[adm_data_scope_permission](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_data_scope]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_data_scopes]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[adm_data_scope](
+CREATE TABLE [dbo].[adm_data_scopes](
 	[data_scope_id] [bigint] IDENTITY(1,1) NOT NULL,
 	[scope_type] [int] NULL,
 	[description] [nvarchar](255) NULL,
@@ -409,7 +420,7 @@ CREATE TABLE [dbo].[adm_data_scope](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_roles]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_roles]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -425,7 +436,7 @@ CREATE TABLE [dbo].[adm_roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_employee_role]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_employee_role]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -440,7 +451,7 @@ CREATE TABLE [dbo].[adm_employee_role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[employee_role_lite_v]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  View [dbo].[employee_role_lite_v]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -456,7 +467,7 @@ inner join dbo.adm_roles c on b.role_id = c.role_id
 
 )
 GO
-/****** Object:  Table [dbo].[adm_flex_values]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_flex_values]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -492,25 +503,25 @@ CREATE TABLE [dbo].[adm_flex_values](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[permission_data_scope_type_v]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  View [dbo].[permission_data_scope_type_v]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-
+ 
 /*
 * username, code get scope_type
 * phamha Oct 09, 2025
 */
 
-create   view [dbo].[permission_data_scope_type_v]
+CREATE     view [dbo].[permission_data_scope_type_v]
 as
 (
 select b.flex_value as permission_data_code,
 
 c.username,
 d.scope_type,
+d.data_scope_id,
 
 b.attribute1,
 b.attribute2,
@@ -521,13 +532,13 @@ b.ref_id
 from [dbo].adm_data_scope_permission a
 inner join  [dbo].adm_flex_values b on a.flex_value_id = b.flex_value_id
 inner join [dbo].employee_role_lite_v c on a.role_id = c.role_id
-inner join [dbo].adm_data_scope d on d.data_scope_id = a.data_scope_id
-where b.flex_value ='PERMISS_BUDGET'
+inner join [dbo].adm_data_scopes d on d.data_scope_id = a.data_scope_id
+--where b.flex_value ='PERMISS_BUDGET'
 
 )
  
 GO
-/****** Object:  View [dbo].[employee_organization_org_lite_v]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  View [dbo].[employee_organization_org_lite_v]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -562,16 +573,21 @@ as
 
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[func_get_data_scope_permission]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[func_get_data_scope_permission]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
+ 
+ /*
+ * Get scope data permistion
+ * phamha Oct 2025
+ */
      
 CREATE function [dbo].[func_get_data_scope_permission](
 @username nvarchar(256),
-@permission_data_code nvarchar(256)
+@permission_data_code nvarchar(256),
+@type nvarchar(256) --view, approve level1..., apporve level2..
 
 )
 returns table
@@ -581,23 +597,334 @@ return
 
 	with a as (
 	select  permission_data_code, username, scope_type, x.attribute1, x.attribute2
-	from permission_data_scope_type_v x
+	from dbo.permission_data_scope_type_v x
 	where x.username=@username
         and (@permission_data_code = '' or permission_data_code = @permission_data_code)
 	)
 	select a.permission_data_code, a.username,  b.unit_code, b.division_code,a.attribute1, a.attribute2
 	from a
-	inner join employee_organization_unit_lite_v b on a.username = b.username
+	inner join dbo.employee_organization_unit_lite_v b on a.username = b.username
 	where a.scope_type = 1 
 	union all
 	select a.permission_data_code,a.username,  b.unit_code, b.division_code,a.attribute1, a.attribute2
 	from a
-	inner join employee_organization_org_lite_v b on a.username = b.username
+	inner join dbo.employee_organization_org_lite_v b on a.username = b.username
 	where a.scope_type = 2 
 
 )
 GO
-/****** Object:  Table [bud].[adm_employees]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_flex_values]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[adm_flex_values](
+	[flex_value_id] [bigint] NOT NULL,
+	[flex_value_set_id] [bigint] NULL,
+	[flex_value] [nvarchar](500) NULL,
+	[flex_value_name] [nvarchar](500) NULL,
+	[enable_flag] [nvarchar](10) NULL,
+	[period] [nvarchar](10) NULL,
+	[description] [nvarchar](500) NULL,
+	[edit_version] [timestamp] NOT NULL,
+	[created_by] [nvarchar](255) NULL,
+	[created_date] [datetime] NULL,
+	[modified_by] [nvarchar](255) NULL,
+	[modified_date] [datetime] NULL,
+	[attribute1] [nvarchar](256) NULL,
+	[attribute2] [nvarchar](256) NULL,
+	[attribute3] [nvarchar](256) NULL,
+	[attribute4] [nvarchar](256) NULL,
+	[attribute5] [nvarchar](256) NULL,
+	[attribute6] [nvarchar](256) NULL,
+	[attribute7] [nvarchar](256) NULL,
+	[attribute8] [nvarchar](256) NULL,
+	[attribute9] [nvarchar](256) NULL,
+	[attribute10] [nvarchar](256) NULL,
+	[attribute11] [nvarchar](256) NULL,
+	[attribute12] [nvarchar](256) NULL,
+	[attribute13] [nvarchar](256) NULL,
+	[attribute14] [nvarchar](256) NULL,
+	[attribute15] [nvarchar](256) NULL,
+	[attribute_label1] [nvarchar](256) NULL,
+	[attribute_label2] [nvarchar](256) NULL,
+	[attribute_label3] [nvarchar](256) NULL,
+	[attribute_label4] [nvarchar](256) NULL,
+	[attribute_label5] [nvarchar](256) NULL,
+	[attribute_label6] [nvarchar](256) NULL,
+	[attribute_label7] [nvarchar](256) NULL,
+	[attribute_label8] [nvarchar](256) NULL,
+	[attribute_label9] [nvarchar](256) NULL,
+	[attribute_label10] [nvarchar](256) NULL,
+	[attribute_label11] [nvarchar](256) NULL,
+	[attribute_label12] [nvarchar](256) NULL,
+	[attribute_label13] [nvarchar](256) NULL,
+	[attribute_label14] [nvarchar](256) NULL,
+	[attribute_label15] [nvarchar](256) NULL,
+	[ref_id] [bigint] NULL,
+ CONSTRAINT [PK_adm_flex_value] PRIMARY KEY CLUSTERED 
+(
+	[flex_value_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[adm_config_scope_data_type6]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[adm_config_scope_data_type6](
+	[config_scope_data_type6_id] [bigint] IDENTITY(1,1) NOT NULL,
+	[code] [nvarchar](256) NULL,
+ CONSTRAINT [PK_adm_config_scope_data_type6] PRIMARY KEY CLUSTERED 
+(
+	[config_scope_data_type6_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [bud].[permission_data_scope_type_v]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ 
+/*
+* username, code get scope_type
+* phamha Oct 09, 2025
+*/
+
+CREATE     view [bud].[permission_data_scope_type_v]
+as
+(
+select b.flex_value as permission_data_code,
+
+c.username,
+d.scope_type,
+d.data_scope_id,
+
+b.attribute1,
+b.attribute2,
+b.attribute3,
+b.attribute4,
+b.attribute5,
+b.ref_id
+from [dbo].adm_data_scope_permission a
+inner join  [dbo].adm_flex_values b on a.flex_value_id = b.flex_value_id
+inner join [dbo].employee_role_lite_v c on a.role_id = c.role_id
+inner join [dbo].adm_data_scopes d on d.data_scope_id = a.data_scope_id
+--where b.flex_value ='PERMISS_BUDGET'
+
+)
+ 
+GO
+/****** Object:  UserDefinedFunction [bud].[func_get_data_scope_permission_category]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*
+* Permision special for flexvalue/category servcie
+* phamha Oct 14, 2025
+*/
+create function [bud].[func_get_data_scope_permission_category](
+@username nvarchar(256),
+@permission_data_code nvarchar(256)
+)
+returns table
+as
+return
+(
+
+	with a as (
+	select  permission_data_code, username, scope_type, x.attribute1, x.attribute2, x.[data_scope_id]
+	from bud.permission_data_scope_type_v x
+	where x.username=@username
+        and (@permission_data_code = '' or permission_data_code = @permission_data_code)
+	) 
+	select a.permission_data_code,a.username, b.flex_value_id, b.flex_value config_code_allow ,a.attribute1, a.attribute2
+	from a
+	inner join adm_config_scope_data_type6 c on a.[data_scope_id] = c.config_scope_data_type6_id --type in UI
+	inner join  adm_flex_values b on c.code = b.flex_value
+	where a.scope_type = 6 --special for flex value
+)
+
+GO
+/****** Object:  UserDefinedFunction [dbo].[func_get_data_scope_permission_category]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+/*
+* Permision special for flexvalue/category servcie
+* phamha Oct 14, 2025
+*/
+create function [dbo].[func_get_data_scope_permission_category](
+@username nvarchar(256),
+@permission_data_code nvarchar(256)
+)
+returns table
+as
+return
+(
+
+	with a as (
+	select  permission_data_code, username, scope_type, x.attribute1, x.attribute2, x.[data_scope_id]
+	from bud.permission_data_scope_type_v x
+	where x.username=@username
+        and (@permission_data_code = '' or permission_data_code = @permission_data_code)
+	) 
+	select a.permission_data_code,a.username, b.flex_value_id, b.flex_value config_code_allow ,a.attribute1, a.attribute2
+	from a
+	inner join adm_config_scope_data_type6 c on a.[data_scope_id] = c.config_scope_data_type6_id --type in UI
+	inner join  adm_flex_values b on c.code = b.flex_value
+	where a.scope_type = 6 --special for flex value
+)
+
+GO
+/****** Object:  Table [dbo].[adm_flex_hierarchy]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[adm_flex_hierarchy](
+	[flex_hierarchy_id] [bigint] NOT NULL,
+	[parent_flex_value_set_id] [bigint] NOT NULL,
+	[child_flex_value_set_id] [bigint] NOT NULL,
+	[parent_flex_value_id] [bigint] NOT NULL,
+	[child_flex_value_id] [bigint] NOT NULL,
+	[child_value] [nvarchar](500) NULL,
+	[parent_value] [nvarchar](500) NULL,
+	[hierarchy_type] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[adm_flex_value_sets]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[adm_flex_value_sets](
+	[flex_value_set_id] [bigint] NOT NULL,
+	[flex_value_set_name] [nvarchar](500) NULL,
+	[enable_flag] [nvarchar](10) NULL,
+	[period] [nvarchar](10) NULL,
+	[description] [nvarchar](500) NULL,
+	[edit_version] [timestamp] NOT NULL,
+	[created_by] [nvarchar](255) NULL,
+	[created_date] [datetime] NULL,
+	[modified_by] [nvarchar](255) NULL,
+	[modified_date] [datetime] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [bud].[bud_configs]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[bud_configs](
+	[config_id] [bigint] NOT NULL,
+	[template_id] [bigint] NULL,
+	[unit_type] [nvarchar](256) NULL,
+	[unit_group] [nvarchar](256) NULL,
+	[division_group] [nvarchar](256) NULL,
+	[budget_line] [nvarchar](256) NULL,
+	[created_by] [nvarchar](256) NULL,
+	[created_date] [datetime] NULL,
+	[modified_by] [nvarchar](256) NULL,
+	[modified_date] [datetime] NULL,
+ CONSTRAINT [PK_bud_configs] PRIMARY KEY CLUSTERED 
+(
+	[config_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [bud].[bud_templates]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[bud_templates](
+	[template_id] [bigint] NOT NULL,
+	[template_concanate] [nvarchar](500) NULL,
+	[segment1_type] [nvarchar](10) NULL,
+	[segment2_type] [nvarchar](10) NULL,
+	[segment3_type] [nvarchar](10) NULL,
+	[segment4_type] [nvarchar](10) NULL,
+	[segment5_type] [nvarchar](10) NULL,
+	[segment6_type] [nvarchar](10) NULL,
+	[segment7_type] [nvarchar](10) NULL,
+	[segment8_type] [nvarchar](10) NULL,
+	[segment9_type] [nvarchar](10) NULL,
+	[segment10_type] [nvarchar](10) NULL,
+	[notify_type] [nvarchar](10) NULL,
+	[created_by] [nvarchar](256) NULL,
+	[created_date] [datetime] NULL,
+	[modified_by] [nvarchar](256) NULL,
+	[modified_date] [datetime] NULL,
+ CONSTRAINT [PK_bud_templates] PRIMARY KEY CLUSTERED 
+(
+	[template_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [bud].[config_segment_v]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ 
+/*
+* get config block from deail request
+* phamkhanhhand Oct 14, 2025
+*/
+create   view [bud].[config_segment_v] 
+AS 
+(
+	select
+	a.config_id,
+	b.template_id, 
+	b.segment1_type, 
+	b.segment2_type, 
+	b.segment3_type, 
+	b.segment4_type, 
+	b.segment5_type, 
+	b.segment6_type, 
+	b.segment7_type, 
+	b.segment8_type, 
+	b.segment9_type, 
+	b.segment10_type, 
+	b.notify_type 
+	,h1s.child_value segment1_balance, --full value branch, ho, office --in plan, adjustment
+	h1.child_value segment1  --016 to 001  --just in balance
+	,a.budget_line segment5  
+	, h2.child_value segment2
+	 
+	from bud.bud_configs a
+	inner join bud.bud_templates b on a.template_id = b.template_id
+	
+	left join dbo.adm_flex_hierarchy h1 on h1.parent_value = a.unit_group
+	left join dbo.adm_flex_value_sets sc1 on sc1.flex_value_set_id = h1.child_flex_value_id and sc1.flex_value_set_name ='BRANCH_ITEM'--set child
+	left join dbo.adm_flex_value_sets sp1 on sp1.flex_value_set_id = h1.parent_flex_value_set_id and  sp1.flex_value_set_name ='BRANCH_GROUP' --set parent
+
+	left join dbo.adm_flex_hierarchy h1s on h1.child_flex_value_set_id = h1s.parent_flex_value_set_id
+			and h1.child_flex_value_id = h1s.parent_flex_value_id --grandchild
+			
+	left join dbo.adm_flex_value_sets sc1s on sc1s.flex_value_set_id = h1s.child_flex_value_set_id and  sp1.flex_value_set_name ='BUDGET_UNIT_ITEM' --set grandchild
+
+	left join dbo.adm_flex_hierarchy h2 on h2.parent_value = a.division_group
+	left join dbo.adm_flex_value_sets sc2 on sc2.flex_value_set_id = h2.child_flex_value_id and sc2.flex_value_set_name ='DIVISION_ITEM'--set child
+	left join dbo.adm_flex_value_sets sp2 on sp2.flex_value_set_id = h2.parent_flex_value_set_id and  sp2.flex_value_set_name ='DIVISION_GROUP' --set parent
+	 
+
+
+		   )
+
+GO
+/****** Object:  Table [bud].[adm_employees]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -614,7 +941,7 @@ CREATE TABLE [bud].[adm_employees](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[adm_roles]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_roles]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -630,7 +957,7 @@ CREATE TABLE [bud].[adm_roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[adm_employee_role]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_employee_role]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -645,7 +972,7 @@ CREATE TABLE [bud].[adm_employee_role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [bud].[employee_role_lite_v]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  View [bud].[employee_role_lite_v]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -664,7 +991,7 @@ inner join bud.adm_roles c on b.role_id = c.role_id
 
  
 GO
-/****** Object:  Table [bud].[adm_employee_organization]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_employee_organization]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -679,7 +1006,7 @@ CREATE TABLE [bud].[adm_employee_organization](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[adm_organizations]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_organizations]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -696,7 +1023,7 @@ CREATE TABLE [bud].[adm_organizations](
 	[department_code] [nvarchar](255) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  View [bud].[employee_organization_unit_lite_v]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  View [bud].[employee_organization_unit_lite_v]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -719,7 +1046,7 @@ inner join bud.adm_employee_organization b on a.employee_id = b.employee_id
 inner join bud.adm_organizations c on b.organization_id = c.organization_id 
 )
 GO
-/****** Object:  View [bud].[employee_organization_org_lite_v]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  View [bud].[employee_organization_org_lite_v]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -756,115 +1083,7 @@ as
 
 )
 GO
-/****** Object:  Table [bud].[adm_data_scope_permission]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[adm_data_scope_permission](
-	[data_scope_permission_id] [bigint] IDENTITY(1,1) NOT NULL,
-	[description] [nvarchar](255) NULL,
-	[data_scope_id] [bigint] NOT NULL,
-	[flex_value_id] [bigint] NOT NULL,
-	[role_id] [bigint] NULL,
- CONSTRAINT [PK_data_scope_permission] PRIMARY KEY CLUSTERED 
-(
-	[data_scope_permission_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[adm_data_scopes]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[adm_data_scopes](
-	[data_scope_id] [bigint] IDENTITY(1,1) NOT NULL,
-	[scope_type] [int] NULL,
-	[description] [nvarchar](255) NULL,
- CONSTRAINT [PK_adm_scope_data] PRIMARY KEY CLUSTERED 
-(
-	[data_scope_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[adm_flex_values]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[adm_flex_values](
-	[flex_value_id] [bigint] NOT NULL,
-	[flex_value_set_id] [bigint] NULL,
-	[flex_value] [nvarchar](500) NULL,
-	[flex_value_name] [nvarchar](500) NULL,
-	[enable_flag] [nvarchar](10) NULL,
-	[period] [nvarchar](10) NULL,
-	[description] [nvarchar](500) NULL,
-	[edit_version] [timestamp] NOT NULL,
-	[created_by] [nvarchar](255) NULL,
-	[created_date] [datetime] NULL,
-	[modified_by] [nvarchar](255) NULL,
-	[modified_date] [datetime] NULL,
-	[attribute1] [nvarchar](256) NULL,
-	[attribute2] [nvarchar](256) NULL,
-	[attribute3] [nvarchar](256) NULL,
-	[attribute4] [nvarchar](256) NULL,
-	[attribute5] [nvarchar](256) NULL,
-	[attribute1_label] [nvarchar](256) NULL,
-	[attribute2_label] [nvarchar](256) NULL,
-	[attribute3_label] [nvarchar](256) NULL,
-	[attribute4_label] [nvarchar](256) NULL,
-	[attribute5_label] [nvarchar](256) NULL,
-	[attribute6_label] [nvarchar](256) NULL,
-	[ref_id] [bigint] NULL,
- CONSTRAINT [PK_adm_flex_value] PRIMARY KEY CLUSTERED 
-(
-	[flex_value_id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  View [bud].[permission_data_scope_type_v]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
- 
-
-
-
-
-
-/*
-* username, code get scope_type
-* phamha Oct 09, 2025
-*/
-
-create     view [bud].[permission_data_scope_type_v]
-as
-(
-select b.flex_value as permission_data_code,
-
-c.username,
-d.scope_type,
-
-b.attribute1,
-b.attribute2,
-b.attribute3,
-b.attribute4,
-b.attribute5,
-b.ref_id
-from bud.adm_data_scope_permission a
-inner join  bud.adm_flex_values b on a.flex_value_id = b.flex_value_id
-inner join bud.employee_role_lite_v c on a.role_id = c.role_id
-inner join bud.adm_data_scopes d on d.data_scope_id = a.data_scope_id
-where b.flex_value ='PERMISS_BUDGET'
-
-)
- 
-
-GO
-/****** Object:  UserDefinedFunction [bud].[func_get_data_scope_permission]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  UserDefinedFunction [bud].[func_get_data_scope_permission]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -901,84 +1120,7 @@ return
 )
 
 GO
-/****** Object:  Table [dbo].[adm_flex_hierarchy]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[adm_flex_hierarchy](
-	[flex_hierarchy_id] [bigint] NOT NULL,
-	[parent_flex_value_set_id] [bigint] NOT NULL,
-	[child_flex_value_set_id] [bigint] NOT NULL,
-	[parent_flex_value_id] [bigint] NOT NULL,
-	[child_flex_value_id] [bigint] NOT NULL,
-	[child_value] [nvarchar](500) NULL,
-	[parent_value] [nvarchar](500) NULL,
-	[hierarchy_type] [int] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[adm_flex_value_sets]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[adm_flex_value_sets](
-	[flex_value_set_id] [bigint] NOT NULL,
-	[flex_value_set_name] [nvarchar](500) NULL,
-	[enable_flag] [nvarchar](10) NULL,
-	[period] [nvarchar](10) NULL,
-	[description] [nvarchar](500) NULL,
-	[edit_version] [timestamp] NOT NULL,
-	[created_by] [nvarchar](255) NULL,
-	[created_date] [datetime] NULL,
-	[modified_by] [nvarchar](255) NULL,
-	[modified_date] [datetime] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_configs]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_configs](
-	[config_id] [bigint] NULL,
-	[template_id] [bigint] NULL,
-	[unit_type] [nvarchar](256) NULL,
-	[unit_group] [nvarchar](256) NULL,
-	[division_group] [nvarchar](256) NULL,
-	[budget_line] [nvarchar](256) NULL,
-	[created_by] [nvarchar](256) NULL,
-	[created_date] [datetime] NULL,
-	[modified_by] [nvarchar](256) NULL,
-	[modified_date] [datetime] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [bud].[bud_templates]    Script Date: 10/12/2025 9:25:13 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [bud].[bud_templates](
-	[template_id] [bigint] NULL,
-	[template_concanate] [nvarchar](500) NULL,
-	[segment1_type] [nvarchar](10) NULL,
-	[segment2_type] [nvarchar](10) NULL,
-	[segment3_type] [nvarchar](10) NULL,
-	[segment4_type] [nvarchar](10) NULL,
-	[segment5_type] [nvarchar](10) NULL,
-	[segment6_type] [nvarchar](10) NULL,
-	[segment7_type] [nvarchar](10) NULL,
-	[segment8_type] [nvarchar](10) NULL,
-	[segment9_type] [nvarchar](10) NULL,
-	[segment10_type] [nvarchar](10) NULL,
-	[notify_type] [nvarchar](10) NULL,
-	[created_by] [nvarchar](256) NULL,
-	[created_date] [datetime] NULL,
-	[modified_by] [nvarchar](256) NULL,
-	[modified_date] [datetime] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  UserDefinedFunction [bud].[func_config_segment]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  UserDefinedFunction [bud].[func_config_segment]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1051,7 +1193,7 @@ return
 		   )
 
 GO
-/****** Object:  Table [auth].[auth_accounts]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [auth].[auth_accounts]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1068,7 +1210,39 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[adm_flex_hierarchy]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_data_scope_permission]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[adm_data_scope_permission](
+	[data_scope_permission_id] [bigint] IDENTITY(1,1) NOT NULL,
+	[description] [nvarchar](255) NULL,
+	[data_scope_id] [bigint] NOT NULL,
+	[flex_value_id] [bigint] NOT NULL,
+	[role_id] [bigint] NULL,
+ CONSTRAINT [PK_data_scope_permission] PRIMARY KEY CLUSTERED 
+(
+	[data_scope_permission_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [bud].[adm_data_scopes]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [bud].[adm_data_scopes](
+	[data_scope_id] [bigint] IDENTITY(1,1) NOT NULL,
+	[scope_type] [int] NULL,
+	[description] [nvarchar](255) NULL,
+ CONSTRAINT [PK_adm_scope_data] PRIMARY KEY CLUSTERED 
+(
+	[data_scope_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [bud].[adm_flex_hierarchy]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1084,7 +1258,7 @@ CREATE TABLE [bud].[adm_flex_hierarchy](
 	[hierarchy_type] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[adm_flex_value_sets]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_flex_value_sets]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1102,7 +1276,7 @@ CREATE TABLE [bud].[adm_flex_value_sets](
 	[modified_date] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[adm_scopes]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[adm_scopes]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1118,7 +1292,7 @@ CREATE TABLE [bud].[adm_scopes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_balances]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_balances]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1136,6 +1310,7 @@ CREATE TABLE [bud].[bud_balances](
 	[segment9] [nvarchar](500) NULL,
 	[segment10] [nvarchar](500) NULL,
 	[planning_amount] [decimal](20, 4) NULL,
+	[planning_amount_period_second] [decimal](20, 4) NULL,
 	[actual_amount] [decimal](20, 4) NULL,
 	[remainning_amount] [decimal](20, 4) NULL,
 	[period] [nvarchar](256) NULL,
@@ -1143,13 +1318,14 @@ CREATE TABLE [bud].[bud_balances](
 	[created_date] [datetime] NULL,
 	[modified_by] [nvarchar](256) NULL,
 	[modified_date] [datetime] NULL,
+	[done_period_second] [bit] NULL,
  CONSTRAINT [PK_bud_balances] PRIMARY KEY CLUSTERED 
 (
 	[balance_id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_adjustment_details]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_budget_adjustment_details]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1183,7 +1359,7 @@ CREATE TABLE [bud].[bud_budget_adjustment_details](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_adjustment_histories]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_budget_adjustment_histories]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1203,7 +1379,7 @@ CREATE TABLE [bud].[bud_budget_adjustment_histories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_adjustments]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_budget_adjustments]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1229,43 +1405,53 @@ CREATE TABLE [bud].[bud_budget_adjustments](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_plan_details]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_budget_plan_details]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [bud].[bud_budget_plan_details](
-	[BudgetPlanDetailID] [bigint] NULL,
-	[BudgetPlanID] [bigint] NULL,
-	[Segment1] [nvarchar](500) NULL,
-	[Segment2] [nvarchar](500) NULL,
-	[Segment3] [nvarchar](500) NULL,
-	[Segment4] [nvarchar](500) NULL,
-	[Segment5] [nvarchar](500) NULL,
-	[Segment6] [nvarchar](500) NULL,
-	[Segment7] [nvarchar](500) NULL,
-	[Segment8] [nvarchar](500) NULL,
-	[Segment9] [nvarchar](500) NULL,
-	[Segment10] [nvarchar](500) NULL,
-	[Amount] [decimal](20, 4) NULL
+	[budget_plan_detail_id] [bigint] NOT NULL,
+	[budget_plan_id] [bigint] NULL,
+	[segment1] [nvarchar](500) NULL,
+	[segment2] [nvarchar](500) NULL,
+	[segment3] [nvarchar](500) NULL,
+	[segment4] [nvarchar](500) NULL,
+	[segment5] [nvarchar](500) NULL,
+	[segment6] [nvarchar](500) NULL,
+	[segment7] [nvarchar](500) NULL,
+	[segment8] [nvarchar](500) NULL,
+	[segment9] [nvarchar](500) NULL,
+	[segment10] [nvarchar](500) NULL,
+	[amount] [decimal](20, 4) NULL,
+	[amount_period_second] [decimal](20, 4) NULL,
+ CONSTRAINT [PK_bud_budget_plan_details] PRIMARY KEY CLUSTERED 
+(
+	[budget_plan_detail_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_plans]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_budget_plans]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [bud].[bud_budget_plans](
-	[BudgetPlanID] [bigint] NULL,
-	[Period] [nvarchar](10) NULL,
-	[Status] [nvarchar](256) NULL,
+	[budget_plan_id] [bigint] NOT NULL,
+	[period] [nvarchar](10) NULL,
+	[budget_line] [nvarchar](256) NULL,
+	[status] [nvarchar](256) NULL,
 	[created_by] [nvarchar](256) NULL,
 	[created_date] [datetime] NULL,
 	[modified_by] [nvarchar](256) NULL,
-	[modified_date] [datetime] NULL
+	[modified_date] [datetime] NULL,
+ CONSTRAINT [PK_bud_budget_plans] PRIMARY KEY CLUSTERED 
+(
+	[budget_plan_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_request_details]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_budget_request_details]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1287,7 +1473,7 @@ CREATE TABLE [bud].[bud_budget_request_details](
 	[balance_id] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_budget_requests]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_budget_requests]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1307,7 +1493,7 @@ CREATE TABLE [bud].[bud_budget_requests](
 	[modified_date] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [bud].[bud_transactions]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [bud].[bud_transactions]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1328,7 +1514,7 @@ CREATE TABLE [bud].[bud_transactions](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_employee_roles]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_employee_roles]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1343,7 +1529,7 @@ CREATE TABLE [dbo].[adm_employee_roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_permissions]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_permissions]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1360,7 +1546,7 @@ CREATE TABLE [dbo].[adm_permissions](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_resource_detail_apis]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_resource_detail_apis]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1375,7 +1561,7 @@ CREATE TABLE [dbo].[adm_resource_detail_apis](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_resource_scope]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_resource_scope]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1390,7 +1576,7 @@ CREATE TABLE [dbo].[adm_resource_scope](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_resources]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_resources]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1407,7 +1593,7 @@ CREATE TABLE [dbo].[adm_resources](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[adm_scopes]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  Table [dbo].[adm_scopes]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1423,6 +1609,31 @@ CREATE TABLE [dbo].[adm_scopes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[bud_attriubte]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[bud_attriubte](
+	[attribute_id] [bigint] NOT NULL,
+	[flex_value_set_id] [bigint] NOT NULL,
+	[attribute_label1] [nvarchar](256) NULL,
+	[attribute_label2] [nvarchar](256) NULL,
+	[attribute_label3] [nvarchar](256) NULL,
+	[attribute_label4] [nvarchar](256) NULL,
+	[attribute_label5] [nvarchar](256) NULL,
+	[attribute_label6] [nvarchar](256) NULL,
+	[attribute_label7] [nvarchar](256) NULL,
+	[attribute_label8] [nvarchar](256) NULL,
+	[attribute_label9] [nvarchar](256) NULL,
+	[attribute_label10] [nvarchar](256) NULL,
+	[attribute_label11] [nvarchar](256) NULL,
+	[attribute_label12] [nvarchar](256) NULL,
+	[attribute_label13] [nvarchar](256) NULL,
+	[attribute_label14] [nvarchar](256) NULL,
+	[attribute_label15] [nvarchar](256) NULL
+) ON [PRIMARY]
+GO
 ALTER TABLE [bud].[adm_data_scope_permission] ADD  CONSTRAINT [DF_data_scope_permission_flex_value_id]  DEFAULT (NEXT VALUE FOR [seq_adm_flex_values]) FOR [flex_value_id]
 GO
 ALTER TABLE [bud].[adm_employees] ADD  CONSTRAINT [DF_adm_employees_employee_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_adm_employees]) FOR [employee_id]
@@ -1433,29 +1644,146 @@ ALTER TABLE [bud].[adm_flex_value_sets] ADD  CONSTRAINT [DF_adm_flex_value_sets_
 GO
 ALTER TABLE [bud].[adm_flex_values] ADD  CONSTRAINT [DF_adm_flex_values_flex_value_id]  DEFAULT (NEXT VALUE FOR [seq_adm_flex_values]) FOR [flex_value_id]
 GO
+ALTER TABLE [bud].[bud_balances] ADD  CONSTRAINT [DF_bud_balances_balance_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_balances]) FOR [balance_id]
+GO
 ALTER TABLE [bud].[bud_budget_adjustment_details] ADD  CONSTRAINT [DF_bud_budget_adjustment_details_budget_adjustment_detail_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_adjustment_details]) FOR [budget_adjustment_detail_id]
 GO
 ALTER TABLE [bud].[bud_budget_adjustment_histories] ADD  CONSTRAINT [DF_bud_budget_adjustment_histories_budget_adjustment_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_adjustments]) FOR [budget_adjustment_id]
 GO
 ALTER TABLE [bud].[bud_budget_adjustments] ADD  CONSTRAINT [DF_bud_budget_adjustments_budget_adjustment_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_adjustments]) FOR [budget_adjustment_id]
 GO
-ALTER TABLE [bud].[bud_budget_plan_details] ADD  CONSTRAINT [DF_bud_BudgetPlanDetail_BudgetPlanID]  DEFAULT (NEXT VALUE FOR [seq_bud_BudgetPlanDetail]) FOR [BudgetPlanDetailID]
+ALTER TABLE [bud].[bud_budget_plan_details] ADD  CONSTRAINT [DF_bud_budget_plan_details_budget_plan_detail_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_plan_details]) FOR [budget_plan_detail_id]
 GO
-ALTER TABLE [bud].[bud_budget_plans] ADD  CONSTRAINT [DF_bud_BudgetPlan_BudgetPlanID]  DEFAULT (NEXT VALUE FOR [seq_bud_BudgetPlan]) FOR [BudgetPlanID]
+ALTER TABLE [bud].[bud_budget_plans] ADD  CONSTRAINT [DF_bud_budget_plans_budget_plan_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_plans]) FOR [budget_plan_id]
 GO
 ALTER TABLE [bud].[bud_budget_request_details] ADD  CONSTRAINT [DF_bud_budget_request_details_budget_request_detail_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_request_details]) FOR [budget_request_detail_id]
 GO
 ALTER TABLE [bud].[bud_budget_requests] ADD  CONSTRAINT [DF_bud_budget_requests_budget_request_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_budget_requests]) FOR [budget_request_id]
 GO
-ALTER TABLE [bud].[bud_configs] ADD  CONSTRAINT [DF_bud_config_config_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_Config]) FOR [config_id]
+ALTER TABLE [bud].[bud_configs] ADD  CONSTRAINT [DF_bud_configs_config_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_configs]) FOR [config_id]
 GO
-ALTER TABLE [bud].[bud_templates] ADD  CONSTRAINT [DF_bud_Template_TemplateID]  DEFAULT (NEXT VALUE FOR [seq_bud_Template]) FOR [template_id]
+ALTER TABLE [bud].[bud_templates] ADD  CONSTRAINT [DF_bud_templates_template_id]  DEFAULT (NEXT VALUE FOR [bud].[seq_bud_templates]) FOR [template_id]
 GO
 ALTER TABLE [dbo].[adm_data_scope_permission] ADD  CONSTRAINT [DF_data_scope_permission_flex_value_id]  DEFAULT (NEXT VALUE FOR [seq_adm_flex_values]) FOR [flex_value_id]
 GO
 ALTER TABLE [dbo].[adm_flex_hierarchy] ADD  CONSTRAINT [DF_adm_flex_hierarchy_flex_link]  DEFAULT (NEXT VALUE FOR [seq_adm_flex_hierarchy]) FOR [flex_hierarchy_id]
 GO
-/****** Object:  StoredProcedure [bud].[proc_hold_balance]    Script Date: 10/12/2025 9:25:13 PM ******/
+ALTER TABLE [dbo].[bud_attriubte] ADD  CONSTRAINT [DF_Table_1_flex_value_id]  DEFAULT (NEXT VALUE FOR [seq_adm_flex_values]) FOR [attribute_id]
+GO
+ALTER TABLE [dbo].[bud_attriubte] ADD  CONSTRAINT [DF_bud_attriubte_flex_value_id]  DEFAULT (NEXT VALUE FOR [seq_adm_flex_values]) FOR [flex_value_set_id]
+GO
+/****** Object:  StoredProcedure [bud].[proc_add_budget_balance_from_plance]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ 
+ --=====================================
+ --add_budget_balance_from_plance
+ --phamkhanhhand Oct 14, 2025
+-- =============================================
+CREATE   PROCEDURE [bud].[proc_add_budget_balance_from_plance] 
+
+@budget_plan_id bigint,
+@username nvarchar(256) 
+--,@period int, --year
+--@RequestDetail [bud].[bud_type_check_balance_detail] READONLY   
+ 
+AS
+BEGIN 
+
+declare @now datetime = getdate()
+ 
+  
+--note that: bud_template block by segment config, mabe sum
+--note 2: @RequestDetail segment distinct
+--note 3: check is not the same with hold
+
+
+-- check exists config
+if(not exists
+	(select *
+	from bud.bud_budget_plans a
+	inner join bud.bud_configs b on b.budget_line = a.budget_line
+	inner join bud.bud_templates  c on b.template_id = c.template_id
+	where a.budget_plan_id = @budget_plan_id)
+)
+
+begin
+ select  'False' Result, 'Not exists template' Mess
+
+ return
+end 
+
+merge bud.bud_balances as bl
+
+using 
+( 
+select d.balance_id,
+	
+	IIF( c.segment1_type='U' ,b.segment1,NULL) segment1,
+	IIF( c.segment2_type='U' ,b.segment2,NULL) segment2,
+	IIF( c.segment3_type='U' ,b.segment3,NULL) segment3,
+	IIF( c.segment4_type='U' ,b.segment4,NULL) segment4,
+	IIF( c.segment5_type='U' ,b.segment5,NULL) segment5,
+	IIF( c.segment6_type='U' ,b.segment6,NULL) segment6,
+	IIF( c.segment7_type='U' ,b.segment7,NULL) segment7,
+	IIF( c.segment8_type='U' ,b.segment8,NULL) segment8,
+	IIF( c.segment9_type='U' ,b.segment9,NULL) segment9,
+	IIF( c.segment10_type='U' ,b.segment10,NULL) segment10
+	, sum(b.amount) amount,
+	sum(b.amount_period_second)amount_period_second
+	 
+	from bud.bud_budget_plans a
+	inner join bud.bud_budget_plan_details b on a.budget_plan_id = b.budget_plan_id
+	inner join [bud].[config_segment_v]  c
+		on b.segment5 = c.segment5 --budget line
+		   and b.segment1 = c.segment1_balance
+		   and b.segment2 = c.segment2
+
+	left join bud.bud_balances d on 
+
+	( (c.segment1_type<>'U' and d.segment1  is null) or (c.segment1_type='U' and b.segment1 = d.segment1))
+	and ( (c.segment2_type<>'U' and d.segment2 is null) or (c.segment2_type='U' and b.segment2 = d.segment2))
+	and ( (c.segment3_type<>'U' and d.segment3 is null) or (c.segment3_type='U' and b.segment3 = d.segment3))
+	and ( (c.segment4_type<>'U' and d.segment4 is null) or (c.segment4_type='U' and b.segment4 = d.segment4))
+	and ( (c.segment5_type<>'U' and d.segment5 is null) or (c.segment5_type='U' and b.segment5 = d.segment5))
+	and ( (c.segment6_type<>'U' and d.segment6 is null) or (c.segment6_type='U' and b.segment6 = d.segment6))
+	and ( (c.segment7_type<>'U' and d.segment7 is null) or (c.segment7_type='U' and b.segment7 = d.segment7))
+	and ( (c.segment8_type<>'U' and d.segment8 is null) or (c.segment8_type='U' and b.segment8 = d.segment8))
+	and ( (c.segment9_type<>'U' and d.segment9 is null) or (c.segment9_type='U' and b.segment9 = d.segment9))
+	and ( (c.segment10_type<>'U' and d.segment10  is null ) or (c.segment10_type='U' and b.segment10 = d.segment10) )
+	and d.period = a.period
+	 
+	where a.budget_plan_id = @budget_plan_id
+	group by d.balance_id,
+	IIF( c.segment1_type='U' ,b.segment1,NULL) ,
+	IIF( c.segment2_type='U' ,b.segment2,NULL) ,
+	IIF( c.segment3_type='U' ,b.segment3,NULL) ,
+	IIF( c.segment4_type='U' ,b.segment4,NULL) ,
+	IIF( c.segment5_type='U' ,b.segment5,NULL) ,
+	IIF( c.segment6_type='U' ,b.segment6,NULL) ,
+	IIF( c.segment7_type='U' ,b.segment7,NULL) ,
+	IIF( c.segment8_type='U' ,b.segment8,NULL) ,
+	IIF( c.segment9_type='U' ,b.segment9,NULL) ,
+	IIF( c.segment10_type='U' ,b.segment10,NULL)
+	) as s
+	on bl.balance_id = s.balance_id
+	when matched then update set   bl.planning_amount = bl.planning_amount + s.amount,
+	bl.planning_amount_period_second = bl.planning_amount_period_second + s.amount_period_second
+	, bl.done_period_second = 0
+	WHEN NOT MATCHED THEN 
+	insert (segment1, segment2, segment3, segment4, segment5, segment6, segment7, segment8, segment9, segment10, planning_amount, done_period_second, planning_amount_period_second)
+	values (s.segment1, s.segment2, s.segment3, s.segment4, s.segment5, s.segment6, s.segment7, s.segment8, s.segment9, s.segment10, s.amount, 0, s.amount_period_second)
+	 ;
+	 
+ select  'DONE' Result 
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [bud].[proc_hold_balance]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1697,7 +2025,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [bud].[proc_hold_balance_adjustment]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_hold_balance_adjustment]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1773,7 +2101,7 @@ declare @now datetime = getdate(),
 		   
 END
 GO
-/****** Object:  StoredProcedure [bud].[proc_hold_gap_balance_adjustment]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_hold_gap_balance_adjustment]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1856,7 +2184,7 @@ declare @now datetime = getdate(),
 		   
 END
 GO
-/****** Object:  StoredProcedure [bud].[proc_revert_balance]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_revert_balance]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1934,7 +2262,7 @@ BEGIN
   
 END
 GO
-/****** Object:  StoredProcedure [bud].[proc_revert_balance_adjustment]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_revert_balance_adjustment]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1976,7 +2304,168 @@ declare @now datetime = getdate(),
 		   
 END
 GO
-/****** Object:  StoredProcedure [dbo].[proc_CheckPermission]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [bud].[proc_sub_budget_balance_from_plance]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ 
+ --=====================================
+ --sub_budget_balance_from_plance if reference to the completing
+ --phamkhanhhand Oct 14, 2025
+-- =============================================
+CREATE   PROCEDURE [bud].[proc_sub_budget_balance_from_plance] 
+
+@budget_plan_id bigint,
+@username nvarchar(256) 
+--,@period int, --year
+--@RequestDetail [bud].[bud_type_check_balance_detail] READONLY   
+ 
+AS
+BEGIN 
+
+declare @now datetime = getdate()
+ 
+  
+--note that: bud_template block by segment config, mabe sum
+--note 2: @RequestDetail segment distinct
+--note 3: check is not the same with hold
+
+
+-- check exists config
+if(not exists
+	(select *
+	from bud.bud_budget_plans a
+	inner join bud.bud_configs b on b.budget_line = a.budget_line
+	inner join bud.bud_templates  c on b.template_id = c.template_id
+	where a.budget_plan_id = @budget_plan_id)
+)
+
+begin
+ select  'False' Result, 'Not exists template' Mess
+
+ return
+end 
+
+merge bud.bud_balances as bl
+
+using 
+( 
+select d.balance_id,
+	
+	IIF( c.segment1_type='U' ,b.segment1,NULL) segment1,
+	IIF( c.segment2_type='U' ,b.segment2,NULL) segment2,
+	IIF( c.segment3_type='U' ,b.segment3,NULL) segment3,
+	IIF( c.segment4_type='U' ,b.segment4,NULL) segment4,
+	IIF( c.segment5_type='U' ,b.segment5,NULL) segment5,
+	IIF( c.segment6_type='U' ,b.segment6,NULL) segment6,
+	IIF( c.segment7_type='U' ,b.segment7,NULL) segment7,
+	IIF( c.segment8_type='U' ,b.segment8,NULL) segment8,
+	IIF( c.segment9_type='U' ,b.segment9,NULL) segment9,
+	IIF( c.segment10_type='U' ,b.segment10,NULL) segment10
+	, sum(b.amount) amount,
+	sum(b.amount_period_second)amount_period_second
+	 
+	from bud.bud_budget_plans a
+	inner join bud.bud_budget_plan_details b on a.budget_plan_id = b.budget_plan_id
+	inner join [bud].[config_segment_v]  c
+		on b.segment5 = c.segment5 --budget line
+		   and b.segment1 = c.segment1_balance
+		   and b.segment2 = c.segment2
+
+	left join bud.bud_balances d on 
+
+	( (c.segment1_type<>'U' and d.segment1  is null) or (c.segment1_type='U' and b.segment1 = d.segment1))
+	and ( (c.segment2_type<>'U' and d.segment2 is null) or (c.segment2_type='U' and b.segment2 = d.segment2))
+	and ( (c.segment3_type<>'U' and d.segment3 is null) or (c.segment3_type='U' and b.segment3 = d.segment3))
+	and ( (c.segment4_type<>'U' and d.segment4 is null) or (c.segment4_type='U' and b.segment4 = d.segment4))
+	and ( (c.segment5_type<>'U' and d.segment5 is null) or (c.segment5_type='U' and b.segment5 = d.segment5))
+	and ( (c.segment6_type<>'U' and d.segment6 is null) or (c.segment6_type='U' and b.segment6 = d.segment6))
+	and ( (c.segment7_type<>'U' and d.segment7 is null) or (c.segment7_type='U' and b.segment7 = d.segment7))
+	and ( (c.segment8_type<>'U' and d.segment8 is null) or (c.segment8_type='U' and b.segment8 = d.segment8))
+	and ( (c.segment9_type<>'U' and d.segment9 is null) or (c.segment9_type='U' and b.segment9 = d.segment9))
+	and ( (c.segment10_type<>'U' and d.segment10  is null ) or (c.segment10_type='U' and b.segment10 = d.segment10) )
+	and d.period = a.period
+	 
+	where a.budget_plan_id = @budget_plan_id
+	group by d.balance_id,
+	IIF( c.segment1_type='U' ,b.segment1,NULL) ,
+	IIF( c.segment2_type='U' ,b.segment2,NULL) ,
+	IIF( c.segment3_type='U' ,b.segment3,NULL) ,
+	IIF( c.segment4_type='U' ,b.segment4,NULL) ,
+	IIF( c.segment5_type='U' ,b.segment5,NULL) ,
+	IIF( c.segment6_type='U' ,b.segment6,NULL) ,
+	IIF( c.segment7_type='U' ,b.segment7,NULL) ,
+	IIF( c.segment8_type='U' ,b.segment8,NULL) ,
+	IIF( c.segment9_type='U' ,b.segment9,NULL) ,
+	IIF( c.segment10_type='U' ,b.segment10,NULL)
+	) as s
+	on bl.balance_id = s.balance_id
+	when matched then update set   bl.planning_amount = bl.planning_amount - s.amount,
+	bl.planning_amount_period_second = bl.planning_amount_period_second - s.amount_period_second
+	--, bl.done_period_second = 0
+	--WHEN NOT MATCHED THEN 
+	--insert (segment1, segment2, segment3, segment4, segment5, segment6, segment7, segment8, segment9, segment10, planning_amount, done_period_second, planning_amount_period_second)
+	--values (s.segment1, s.segment2, s.segment3, s.segment4, s.segment5, s.segment6, s.segment7, s.segment8, s.segment9, s.segment10, s.amount, 0, s.amount_period_second)
+	 ;
+	 
+ select  'DONE' Result 
+
+END
+
+
+GO
+/****** Object:  StoredProcedure [bud].[proc_validate_exists_template]    Script Date: 10/14/2025 10:36:00 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ 
+ --=====================================
+ --Hold balance
+ --(cut balance amount from balance)
+ --phamkhanhhand Oct 14, 2025
+-- =============================================
+CREATE   PROCEDURE [bud].[proc_validate_exists_template]
+
+@budget_plan_id bigint,
+@username nvarchar(256) 
+--,@period int, --year
+--@RequestDetail [bud].[bud_type_check_balance_detail] READONLY   
+ 
+AS
+BEGIN 
+
+declare @now datetime = getdate()
+ 
+  
+--note that: bud_template block by segment config, mabe sum
+--note 2: @RequestDetail segment distinct
+--note 3: check is not the same with hold
+
+
+-- check exists config
+if(not exists
+	(select *
+	from bud.bud_budget_plans a
+	inner join bud.bud_configs b on b.budget_line = a.budget_line
+	inner join bud.bud_templates  c on b.template_id = c.template_id
+	where a.budget_plan_id = @budget_plan_id)
+)
+
+begin
+ select  'False' Result, 'Not exists template' Mess
+
+ return
+end 
+ select  'Pass' Result, 'Not exists template' Mess
+ 
+		   
+END
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[proc_CheckPermission]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2032,7 +2521,7 @@ if exists (
 	select @hasPermission
 END
 GO
-/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_set]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_set]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2134,7 +2623,7 @@ INSERT INTO [dbo].[adm_flex_hierarchy]
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_value]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_value]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2275,7 +2764,7 @@ end
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_value_all]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_value_all]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2421,7 +2910,7 @@ end
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_value_all_set]    Script Date: 10/12/2025 9:25:13 PM ******/
+/****** Object:  StoredProcedure [dbo].[proc_save_hierarchy_value_all_set]    Script Date: 10/14/2025 10:36:00 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
