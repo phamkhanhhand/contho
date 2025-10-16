@@ -51,7 +51,7 @@ public class PermissionAspect {
             throw new SecurityException("Access denied for sourceCode: " + sourceCode);
         }
 
-        log.info("Access granted for sourceCode: {}, uri: {}, scopes: {}", sourceCode, uri, requiredScopes);
+//        log.info("Access granted for sourceCode: {}, uri: {}, scopes: {}", sourceCode, uri, requiredScopes);
     }
 
     // TODO Hàm kiểm tra quyền (mock)

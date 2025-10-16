@@ -1,6 +1,5 @@
 package com.phamkhanhhand.contho.budget_management.aspect;
 
-import com.phamkhanhhand.contho.budget_management.dto.mapper.ResponseWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,9 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
@@ -27,32 +29,24 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
                                   ServerHttpRequest request,
                                   ServerHttpResponse response) {
 
-        // Tránh bọc lại nếu đã được bọc sẵn
-        if (body instanceof ResponseWrapper<?>) {
-            return body;
-        }
-
         // Lấy thông tin từ header request
         String transactionId = request.getHeaders().getFirst("TransactionId");
         String clientMessageId = request.getHeaders().getFirst("ClientMessageId");
 
-        // Mặc định HTTP status là 200 OK (vì không thể lấy trực tiếp từ ServerHttpResponse)
-        int statusCode = HttpStatus.OK.value();
-        String message = HttpStatus.OK.getReasonPhrase();
-
-
+        // Lấy status từ ServletResponse
         HttpServletResponse servletResponse = ServletResponseHolder.getResponse();
-        statusCode = servletResponse != null ? servletResponse.getStatus() : HttpStatus.OK.value();
-        message = HttpStatus.resolve(statusCode) != null
+        int statusCode = servletResponse != null ? servletResponse.getStatus() : HttpStatus.OK.value();
+        String message = HttpStatus.resolve(statusCode) != null
                 ? HttpStatus.resolve(statusCode).getReasonPhrase()
                 : "Unknown Status";
 
+        // ✅ Tạo response theo dạng Map
+        Map<String, Object> wrapper = new HashMap<>();
+        wrapper.put("status", statusCode);
+        wrapper.put("message", message);
+        wrapper.put("clientMessageId", clientMessageId);
+        wrapper.put("data", body);
 
-        return new ResponseWrapper<Object>(
-                statusCode,
-                message,
-                clientMessageId,
-                body
-        );
+        return wrapper;
     }
 }
