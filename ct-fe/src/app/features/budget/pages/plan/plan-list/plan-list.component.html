@@ -1,1 +1,9 @@
-<p>plan-list works!</p>
+<h2>{{ plan.name }}</h2>
+<p><strong>Tổng tiền (amount):</strong> {{ plan.amount }}</p>
+
+<h3>Chi tiết kế hoạch</h3>
+<ul>
+    <li *ngFor="let detail of plan.details">
+        {{ detail.description }} - {{ detail.amount }}
+    </li>
+</ul>

@@ -29,21 +29,7 @@ const routes: Routes = [
             (m) => m.BudgetModule
           ),
       },
-
-      // {
-      //   path: '',
-      //   loadChildren: () =>
-      //     import('../features/system-admin/system-admin.module').then(
-      //       (m) => m.SystemAdminModule
-      //     ),
-      // },
-      // {
-      //   path: 'demo11',
-      //   loadChildren: () =>
-      //     import('../features/example/demo/demo.module').then(
-      //       (m) => m.DemoModule
-      //     ),
-      // },
+ 
     ],
   },
 ];

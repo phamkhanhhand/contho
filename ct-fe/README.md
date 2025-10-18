@@ -16,8 +16,14 @@ ng g c features/demo/demo --module=features/demo
 # create index.ts file manually (tu tao bang tay file index.ts)
 
 # example
-ng g m features/employee-manage
-ng g c features/employee-manage/employee-list --module=features/employee-manage
+ng g m features/budget
+ng g c features/budget/pages/plan/plan-list --module=features/budget
+ng g c features/budget/pages/plan/plan-detail --module=features/budget
+ng g c features/budget/pages/plan/plan-edit --module=features/budget
+
+ng g c features/budget/pages/adjustment/request-form-list --module=features/budget
+ng g c features/budget/pages/adjustment/request-form-edit --module=features/budget
+ng g c features/budget/pages/adjustment/request-form-detail --module=features/budget
  
 # example for shared components
 ng g m shared/components/ct-textbox
