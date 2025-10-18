@@ -5,6 +5,8 @@ import com.phamkhanhhand.contho.budget_management.security.DataUserContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Objects;
+
 public class UserContextUtil {
     public static DataUserContext getCurrentUserContext() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -17,4 +19,14 @@ public class UserContextUtil {
         }
         return null;
     }
+
+
+    public static String getCurrentUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && Objects.nonNull(auth.getPrincipal())){
+            return   auth.getPrincipal().toString();
+        }
+        return null;
+    }
+
 }

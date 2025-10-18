@@ -1,37 +1,85 @@
 package com.phamkhanhhand.contho.budget_management.repository.impl;
 
+import com.phamkhanhhand.contho.budget_management.common.Constant;
 import com.phamkhanhhand.contho.budget_management.common.Enumeration;
+import com.phamkhanhhand.contho.budget_management.common.UserContextUtil;
+import com.phamkhanhhand.contho.budget_management.dto.AdjustmentDTO;
+import com.phamkhanhhand.contho.budget_management.dto.PageParamDTO;
 import com.phamkhanhhand.contho.budget_management.model.Adjustment;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 @Repository
-public class AdjustmentRepositoryImpl extends BaseRepositoryImpl {
+public class RequestFormRepositoryImpl extends BaseRepositoryImpl {
 
-    public List<Adjustment> findAll() {
-        String sql = "SELECT * FROM bud_budget_adjustments";
-        return query(sql, Adjustment.class);
-    }
+    public Page<AdjustmentDTO> getPaging(String keyword, Integer pageIndex, Integer pageSize) {
 
-    public Page<Adjustment> findByNameContaining(String keyword, Pageable pageable) {
-        String sql = "SELECT * FROM bud_budget_adjustments WHERE description LIKE :description";
-        String countSql = "SELECT COUNT(*) FROM bud_budget_adjustments WHERE description LIKE :description";
+        if(Objects.isNull(pageIndex)){
+            pageIndex = Constant.PageSerch.DefaultPageIndex;
+        }
+        if(Objects.isNull(pageSize)){
+            pageSize = Constant.PageSerch.DefaultPageSize;
+        }
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("description", "%" + keyword + "%");
+        Sort sort = Sort.by(
+                Sort.Order.desc("modified_date"),
+                Sort.Order.asc("budget_adjustment_no")
+        );
+
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, sort);
+        var permissionDataCode = "1";
+        var currentUsername =   UserContextUtil.getCurrentUsername();
 
 
-        return null;// queryPage(sql, countSql, Adjustment.class, pageable, params);
+        String sql = """  
+                with a as (
+                    select distinct unit_code from bud.func_get_data_scope_permission(:currentUsername,:permissionDataCode,NULL)
+                )
+                SELECT * FROM bud.bud_budget_adjustments b
+                inner join a on a.unit_code= b.created_branch_code
+                WHERE 1=1
+                """;
+
+        String countSql =
+                  """  
+                with a as (
+                 select distinct unit_code from bud.func_get_data_scope_permission(:currentUsername,:permissionDataCode,NULL)
+                )
+                SELECT COUNT(*) FROM bud.bud_budget_adjustments b
+                inner join a on a.unit_code= b.created_branch_code
+                WHERE 1=1
+                """;
+
+
+        var searchClause = " ";
+        if(Objects.nonNull(keyword)){
+            searchClause += " and budget_adjustment_no LIKE :keyword ";
+        }
+
+        sql += searchClause;
+        countSql += searchClause;
+
+//        MapSqlParameterSource params = new MapSqlParameterSource();
+        Map<String, Object> params = new HashMap<>();
+        params.put("keyword", "%" + keyword + "%");
+        params.put("permissionDataCode", permissionDataCode);
+        params.put("currentUsername", currentUsername);
+
+        return queryPage(sql, countSql, AdjustmentDTO.class, pageable, params);
+
     }
 
 

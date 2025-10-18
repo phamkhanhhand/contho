@@ -1,14 +1,24 @@
 package com.phamkhanhhand.contho.budget_management.repository.impl;
 
+import com.phamkhanhhand.contho.budget_management.common.Constant;
+import java.util.Map;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+//import org.springframework.r2dbc.core.DatabaseClient;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+//import org.springframework.data.r2dbc.core.DatabaseClient;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 //@Transactional
@@ -16,6 +26,13 @@ public class BaseRepositoryImpl {
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+//
+//    @Autowired
+//    private DatabaseClient jdbcClient;
+
 
     // ===== QUERY LIST with Class<T> =====
     public <T> List<T> query(String sql, Class<T> clazz, Object... params) {
@@ -29,12 +46,44 @@ public class BaseRepositoryImpl {
     }
 
     // ===== QUERY PAGE with Class<T> =====
-    public <T> Page<T> queryPage(String sql, String countSql, Class<T> clazz, Pageable pageable, Object... params) {
-        String pagedSql = sql + " LIMIT ? OFFSET ?";
-        Object[] pagedParams = appendParams(params, pageable.getPageSize(), pageable.getOffset());
 
-        List<T> content = query(pagedSql, clazz, pagedParams);
-        Long total = jdbcTemplate.queryForObject(countSql, Long.class, params);
+
+
+    public <T> Page<T> queryPage(
+            String sql,
+            String countSql,
+            Class<T> clazz,
+            Pageable pageable,
+            Map<String, Object> params
+    ) {
+
+        StringBuilder orderByClause = new StringBuilder();
+        if (pageable.getSort().isSorted()) {
+            orderByClause.append(" ORDER BY ");
+            List<String> orders = new ArrayList<>();
+            for (Sort.Order order : pageable.getSort()) {
+                orders.add(order.getProperty() + " " + order.getDirection().name());
+            }
+            orderByClause.append(String.join(", ", orders));
+        } else {
+            // Nếu không sort, mặc định ORDER BY id (tránh lỗi OFFSET)
+            orderByClause.append(" ORDER BY 1");
+        }
+
+        // Thêm OFFSET và FETCH
+        sql += orderByClause +" OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY";
+        params.put("offset", pageable.getOffset());
+        params.put("limit", pageable.getPageSize());
+
+        // Query nội dung trang
+        List<T> content = namedParameterJdbcTemplate.query(
+                sql,
+                params,
+                BeanPropertyRowMapper.newInstance(clazz)
+        );
+
+        // Query tổng số bản ghi
+        Long total = namedParameterJdbcTemplate.queryForObject(countSql, params, Long.class);
 
         return new PageImpl<>(content, pageable, total);
     }
