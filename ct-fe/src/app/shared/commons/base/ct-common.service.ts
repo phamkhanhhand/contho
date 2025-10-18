@@ -47,6 +47,7 @@ export class CTCommonService {
       );
   }
 
+  //todo remove đi, vì dùng interceptor
   getHeaders(): HttpHeaders {
     const token = localStorage.getItem('auth_token'); // Hoặc lấy token từ nơi bạn lưu trữ
     return new HttpHeaders({
