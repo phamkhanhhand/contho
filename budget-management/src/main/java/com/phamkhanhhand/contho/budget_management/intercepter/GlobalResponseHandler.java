@@ -1,4 +1,4 @@
-package com.phamkhanhhand.contho.budget_management.aspect;
+package com.phamkhanhhand.contho.budget_management.intercepter;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;

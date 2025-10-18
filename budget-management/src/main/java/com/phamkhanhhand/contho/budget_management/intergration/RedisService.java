@@ -1,4 +1,4 @@
-package com.phamkhanhhand.contho.budget_management.feign;
+package com.phamkhanhhand.contho.budget_management.intergration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

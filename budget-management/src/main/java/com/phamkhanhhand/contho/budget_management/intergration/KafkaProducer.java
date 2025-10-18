@@ -1,8 +1,4 @@
-package com.phamkhanhhand.contho.budget_management.feign;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
+package com.phamkhanhhand.contho.budget_management.intergration;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.phamkhanhhand.contho.budget_management.feign;
+package com.phamkhanhhand.contho.budget_management.intergration;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
