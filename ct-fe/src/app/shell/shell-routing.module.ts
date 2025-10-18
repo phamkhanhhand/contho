@@ -11,9 +11,7 @@ const routes: Routes = [
       {
         path: 'demo',
         loadChildren: () =>
-          import('../features/demo/demo.module').then(
-            (m) => m.DemoModule
-          ),
+          import('../features/demo/demo.module').then((m) => m.DemoModule),
       },
 
       {
@@ -23,6 +21,15 @@ const routes: Routes = [
             (m) => m.EmployeeManageModule
           ),
       },
+
+      {
+        path: 'budget',
+        loadChildren: () =>
+          import('../features/budget/budget.module').then(
+            (m) => m.BudgetModule
+          ),
+      },
+
       // {
       //   path: '',
       //   loadChildren: () =>
