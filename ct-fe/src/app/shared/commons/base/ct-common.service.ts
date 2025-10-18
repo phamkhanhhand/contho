@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
  import { saveAs } from 'file-saver';  // Dùng thư viện file-saver để lưu file
@@ -20,10 +20,9 @@ export class CTCommonService {
 
   import(formData: FormData, url: string) {
     // Gửi file lên server
-   return this.http
-      .post(url, formData, {
-        headers: new HttpHeaders(),
-      });
+    return this.http.post(url, formData, {
+      headers: new HttpHeaders(),
+    });
   }
 
   downloadFileImport(url: string, fileName: string) {
@@ -92,13 +91,24 @@ export class CTCommonService {
       .pipe(catchError(this.handleError<T>('delete')));
   }
 
-  private handleError<T>(operation = 'operation') {
+  // protected handleError<T>(operation = 'operation') {
+  //   return (error: any): Observable<T> => {
+  //     console.error(`${operation} failed: ${error.message}`);
+  //     // Có thể gửi lỗi đến một dịch vụ log hoặc xử lý ở đây
+  //     return new Observable<T>();
+  //   };
+  // }
+
+  protected handleError<T>(operation = 'operation') {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      // Có thể gửi lỗi đến một dịch vụ log hoặc xử lý ở đây
-      return new Observable<T>();
+      console.error(`[${operation}] failed:`, error);
+      return throwError(
+        () =>
+          new Error(`${operation} failed: ${error.message || 'Unknown error'}`)
+      );
     };
   }
+
 }
 
 
