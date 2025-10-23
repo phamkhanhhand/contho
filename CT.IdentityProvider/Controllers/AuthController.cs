@@ -8,11 +8,21 @@ namespace CT.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+
+        [HttpPost("test")]
+        public async Task<IActionResult> testAsync([FromBody] CTLoginRequest request) 
+        {
+
+             await Task.Delay(millisecondsDelay: 3000); // đợi 3 giây 
+            return Ok("Done after 3 seconds");
+
+        }
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] CTLoginRequest request)
         {
-            // 1. Kiểm tra user/pass
-            var isPassLogin = CTAuthService.Login(request.Username, request.Password);
+                // 1. Kiểm tra user/pass
+                var isPassLogin = CTAuthService.Login(request.Username, request.Password);
 
             if (!isPassLogin)
             {

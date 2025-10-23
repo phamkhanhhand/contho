@@ -3,6 +3,7 @@ package com.phamkhanhhand.contho.budget_management;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.kafka.annotation.EnableKafka;
 
@@ -10,6 +11,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 //quan trọng để quét
 @SpringBootApplication(scanBasePackages = "com.phamkhanhhand.contho.budget_management")
 @EnableJpaRepositories("com.phamkhanhhand.contho.budget_management.repository")  // Chỉ định gói chứa các repository
+
+@EnableFeignClients(basePackages = "com.phamkhanhhand.contho.budget_management.feign")
 @EntityScan("com.phamkhanhhand.contho.budget_management.model")  // Đảm bảo quét entity
 @EnableKafka
 

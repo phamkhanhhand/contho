@@ -6,13 +6,16 @@ import com.phamkhanhhand.contho.budget_management.dto.AdjustmentDTO;
 import com.phamkhanhhand.contho.budget_management.dto.CommonApprovalResponseDTO;
 import com.phamkhanhhand.contho.budget_management.dto.CommonRequestDTO;
 import com.phamkhanhhand.contho.budget_management.dto.SearchAdjustmentParamDTO;
+import com.phamkhanhhand.contho.budget_management.feign.UserClient;
 import com.phamkhanhhand.contho.budget_management.intergration.KafkaProducer;
 import com.phamkhanhhand.contho.budget_management.service.RequestFormService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -23,6 +26,24 @@ public class RequestFormController {
 
     private final RequestFormService requestFormService;
     private final KafkaProducer kafkaProducer;
+    private final UserClient userClient;
+
+
+
+    @GetMapping("test")
+    public Object test() {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("username", "admin");
+        param.put("password", "123456");
+
+
+        var rs = userClient.getCurrentUser(param);
+
+        return rs;
+    }
+
+
 
     /*
      * Get by id

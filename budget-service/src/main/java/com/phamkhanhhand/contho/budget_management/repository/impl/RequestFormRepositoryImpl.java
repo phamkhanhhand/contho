@@ -27,6 +27,9 @@ public class RequestFormRepositoryImpl extends BaseRepositoryImpl {
 
     public Page<AdjustmentDTO> getPaging(String keyword, Integer pageIndex, Integer pageSize) {
 
+
+        // <editor-fold desc="prepare">
+
         if(Objects.isNull(pageIndex)){
             pageIndex = Constant.PageSerch.DefaultPageIndex;
         }
@@ -40,6 +43,10 @@ public class RequestFormRepositoryImpl extends BaseRepositoryImpl {
         );
 
         Pageable pageable = PageRequest.of(pageIndex, pageSize, sort);
+
+        // </editor-fold>
+
+
         var permissionDataCode = "1";
         var currentUsername =   UserContextUtil.getCurrentUsername();
 
